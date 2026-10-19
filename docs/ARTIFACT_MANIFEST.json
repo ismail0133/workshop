@@ -1,0 +1,415 @@
+{
+  "phase": 0,
+  "files": [
+    {
+      "path": ".env.example",
+      "bytes": 941,
+      "sha256": "83e5515fa1252ba837d1bcb011a056eb1e0d5c1b365f26afefc766b85c702af2"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 96,
+      "sha256": "fab425431c08c110157defe2915095178be6d509903e6c7b2ef09fd639ef0f23"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 319,
+      "sha256": "4fcaa3d6d52511f8588c89d125e5a7402322ff6fbbcdb9d045872487acdf3e96"
+    },
+    {
+      "path": ".nvmrc",
+      "bytes": 3,
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53"
+    },
+    {
+      "path": ".python-version",
+      "bytes": 5,
+      "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 254,
+      "sha256": "4f3012a52c5b99f9a865b55f0dd97fdc9b46e392a10c713b054fa855a4846394"
+    },
+    {
+      "path": "PHASE_0_REPORT.md",
+      "bytes": 5201,
+      "sha256": "7f478d8fd6a4987d220afa3a1858956b8686e1bea17610ab657c0e4aa869ed30"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4494,
+      "sha256": "59d10b1eba10d1822d449a4cbfc6dc223daf880429260020b23456c145dba5e3"
+    },
+    {
+      "path": "database/migrations/README.md",
+      "bytes": 334,
+      "sha256": "7b93eb05828518b5ded81b85f070b1c6b05dc1eaf14eaa0645bb22d8b9a17f89"
+    },
+    {
+      "path": "database/seeds/README.md",
+      "bytes": 373,
+      "sha256": "8fc5f1f1fca070cd2fc08a3704387f16562bb57833451196405d3982dffe4102"
+    },
+    {
+      "path": "docker-compose.yml",
+      "bytes": 4505,
+      "sha256": "65e7698512dfd0ad28a0f686a729208d481bca06c918aee463438aa1784ee2f7"
+    },
+    {
+      "path": "docs/ENVIRONMENT_AUDIT.json",
+      "bytes": 2748,
+      "sha256": "7c3eabb80104adb251fdf50f5acf28db2f641219b8c70bd28e2120987fae65ec"
+    },
+    {
+      "path": "docs/FEASIBILITY_STUDY.md",
+      "bytes": 6326,
+      "sha256": "5bd701e239d635ad094643dd232ba3644685a980b99fc885aa4d97943015743b"
+    },
+    {
+      "path": "docs/IMPLEMENTATION_PLAN.md",
+      "bytes": 7023,
+      "sha256": "ff7ddf489041270f8d317f0ce74f11bcc28dc348f469f5e7a44cf1cbb15eaab1"
+    },
+    {
+      "path": "docs/REQUIREMENTS_TRACEABILITY.md",
+      "bytes": 16436,
+      "sha256": "8ee5afa187c748944f09507991d44c5c602808dd2f7c860d7748578c042ccdc1"
+    },
+    {
+      "path": "docs/VALIDATION_REPORT.md",
+      "bytes": 3601,
+      "sha256": "f14545ffca165e5e4c468b243464e1b5ab4ff92593a762e592aeeea9005cff46"
+    },
+    {
+      "path": "docs/Workshop-2026_BAC+5_Sujet_PROJECT RESILIENCE-ALPHA .docx.pdf",
+      "bytes": 2421490,
+      "sha256": "610519c1217189a807405f77193bd55d55d0899ed8a67bec9000de6528d931ef"
+    },
+    {
+      "path": "docs/api/API_CONTRACTS.md",
+      "bytes": 7717,
+      "sha256": "e742c4d011d84c605947c6535f7f993a46218cf58f452765cbaf14015b79d9e1"
+    },
+    {
+      "path": "docs/api/anomaly.example.json",
+      "bytes": 747,
+      "sha256": "a2ae963258dc2289d3692617e8863ff823e12445d6921286fe3236f61e4f0db1"
+    },
+    {
+      "path": "docs/api/events.schema.json",
+      "bytes": 15391,
+      "sha256": "b090dc2c4a4d33c02668eb34be981e4d616c862e7da2cd2d6eaab2dbc1725f8c"
+    },
+    {
+      "path": "docs/api/openapi.json",
+      "bytes": 69350,
+      "sha256": "ebddc2fef14fd107ea2789705995869852d7e95684ef042850869cd5a9f24d90"
+    },
+    {
+      "path": "docs/architecture/ARCHITECTURE.md",
+      "bytes": 6603,
+      "sha256": "30243ac688f3058e25f3a219e7b7dc0d9bc55a2e86d1e562d32a3323301c8e32"
+    },
+    {
+      "path": "docs/architecture/DATA_FLOWS.md",
+      "bytes": 5136,
+      "sha256": "e343df70a4b095de852e7e3bfec11926127df1581c3c33d1a4cb627b2b9539cd"
+    },
+    {
+      "path": "docs/architecture/DIAGRAMS.md",
+      "bytes": 10186,
+      "sha256": "b299c142da2133afe57d9b75413f8ca26027f556973ed4249eafba3592d1d6cc"
+    },
+    {
+      "path": "docs/architecture/SERVICE_CATALOG.md",
+      "bytes": 4767,
+      "sha256": "47949d006b4325aef1f08ca1d9400d4b92913cfbb07d5425ca18ccf07b874be3"
+    },
+    {
+      "path": "docs/architecture/TECHNOLOGY_VALIDATION.md",
+      "bytes": 5129,
+      "sha256": "3384d98279902daa2baf8174e14854b6283adbfe328424769700d6bdb61086f0"
+    },
+    {
+      "path": "docs/architecture/diagram-01.mmd",
+      "bytes": 665,
+      "sha256": "a8a6f2f381188f1de0d219cfcd4cc9442ba01ee1dcb768ca9ce1cbac3894e834"
+    },
+    {
+      "path": "docs/architecture/diagram-02.mmd",
+      "bytes": 595,
+      "sha256": "960ac31d7a28a89b580235ce54a8bd0438601e1d04f8eb0881c9fc5981b6b6d1"
+    },
+    {
+      "path": "docs/architecture/diagram-03.mmd",
+      "bytes": 945,
+      "sha256": "f6d97e7ca7791d9ffe3cbd04c21a4b74d49a5c82aa541cec0fdafa0a69af1114"
+    },
+    {
+      "path": "docs/architecture/diagram-04.mmd",
+      "bytes": 748,
+      "sha256": "9a8ee648646789b9caeb33fb1894ba4f863592fa37d401b6f98eec2ff612eba0"
+    },
+    {
+      "path": "docs/architecture/diagram-05.mmd",
+      "bytes": 866,
+      "sha256": "25680d9f131ac6fc2ddaf080b28e0a4052725b40c3c1513f95a11c41526f3016"
+    },
+    {
+      "path": "docs/architecture/diagram-06.mmd",
+      "bytes": 920,
+      "sha256": "c0bb31f967769e1157043b97e427be53754d9c943a7b73c8c0028d410112fd26"
+    },
+    {
+      "path": "docs/architecture/diagram-07.mmd",
+      "bytes": 844,
+      "sha256": "f94392358590b93a0f83e5bd7da8b8fb9020aeb6c0575632ee3458cc7496f31b"
+    },
+    {
+      "path": "docs/architecture/diagram-08.mmd",
+      "bytes": 558,
+      "sha256": "c59f4096b505a05d8f0c4e2b45db548c954f7d56e509272de8faccda9d621c78"
+    },
+    {
+      "path": "docs/architecture/diagram-09.mmd",
+      "bytes": 566,
+      "sha256": "87d7f3c5595794048dd881a212d08cd3ed7ee70da7675a821a843f173c1eb94a"
+    },
+    {
+      "path": "docs/architecture/diagram-10.mmd",
+      "bytes": 650,
+      "sha256": "034b889f65c32748b9cad1b41c4a7054931badfbd7b625915c39ad2d78f9b43f"
+    },
+    {
+      "path": "docs/architecture/diagram-11.mmd",
+      "bytes": 2071,
+      "sha256": "214b93251cf2bbef1bfeb483e5e21d696b95daecd18e017bf24e8a7bb17a791e"
+    },
+    {
+      "path": "docs/compliance/NIS2_DORA.md",
+      "bytes": 3056,
+      "sha256": "a222b51961890b726da88457699a1e7b02443c16210eef9e3510b68f10765bcb"
+    },
+    {
+      "path": "docs/database/DATABASE_DESIGN.md",
+      "bytes": 7751,
+      "sha256": "7b44f1c1784623cc5959d50a14cec78144dcb0b661de2936dc367a78c9b6a49d"
+    },
+    {
+      "path": "docs/database/initial_schema.sql",
+      "bytes": 5931,
+      "sha256": "017ef36a8454ff789a8c89e88581d8f2c84d1e45287be97b9eb6666f5c5bd652"
+    },
+    {
+      "path": "docs/ebios/EBIOS_RM.md",
+      "bytes": 4016,
+      "sha256": "55aff90c61f4bff252decb21abbf78157b6249d762c3d2ce6b12a99ab8e0e28e"
+    },
+    {
+      "path": "docs/ml/ML_DESIGN.md",
+      "bytes": 6172,
+      "sha256": "e24b61abc7eaee3f198f27ae429f42e1b4963c0396da4ef8b16da3499f76994d"
+    },
+    {
+      "path": "docs/observability/OBSERVABILITY_DESIGN.md",
+      "bytes": 4675,
+      "sha256": "11065aa9033fd9d8f83a3a41a74f3061d2febf4e71cc8e78968259e154a7ac88"
+    },
+    {
+      "path": "docs/pca-pra/PCA_PRA.md",
+      "bytes": 2581,
+      "sha256": "f8e931492cafd713f4c6702042c5349d9cceec9f5e1a367a99d0dd060c686a71"
+    },
+    {
+      "path": "docs/rag/RAG_DESIGN.md",
+      "bytes": 4010,
+      "sha256": "b6dcb120765bb5a8da0822caed66c0a327d43d1f6da01b66a37d01f97ca70d8d"
+    },
+    {
+      "path": "docs/requirements.csv",
+      "bytes": 13751,
+      "sha256": "57c6cb753400b942c6c6f69f4178dfc1ea0ad87cce55d96e4c6c196d09fcf331"
+    },
+    {
+      "path": "docs/security/REMEDIATION_DESIGN.md",
+      "bytes": 7778,
+      "sha256": "fd4533b118f57dc3b7d2385ba2225bdef6b6119e65fdb28bef1255c865b8ef87"
+    },
+    {
+      "path": "docs/security/SECURITY_ARCHITECTURE.md",
+      "bytes": 4529,
+      "sha256": "73a917782363ee8362f51021db2f9428dc825843ad2016cb0aaa0072248f7f0a"
+    },
+    {
+      "path": "docs/source/EPSI_EXTRACT.txt",
+      "bytes": 27540,
+      "sha256": "9edefa0f7d45b5f6d8673bfb7f04524093fe6344147fabc62276c84e1e98aee3"
+    },
+    {
+      "path": "docs/source/SOURCE_REGISTER.md",
+      "bytes": 1967,
+      "sha256": "30d22d3fa25f6ca3834d5e85d602cbe83c2eafa8fe46d152284d3924521fc26e"
+    },
+    {
+      "path": "docs/validation-output.txt",
+      "bytes": 4078,
+      "sha256": "5124b611830edeaef188443f1e4a54d42810bf2952f34c3964dd15af6c6c3de8"
+    },
+    {
+      "path": "frontend/package.json",
+      "bytes": 579,
+      "sha256": "2d665dce8be826ef44c952e1c19b3364c3b2b08e087d300245d5b538485598ed"
+    },
+    {
+      "path": "infrastructure/alloy/config.alloy",
+      "bytes": 975,
+      "sha256": "9769720e3f9577226b7c503ff214b9705466749beda26d0a75098ec3af14a8f5"
+    },
+    {
+      "path": "infrastructure/ansible/README.md",
+      "bytes": 702,
+      "sha256": "bb74a90c9f80cf3a7b63212956870db76d4485e57de717f984899a4b89e9898b"
+    },
+    {
+      "path": "infrastructure/ansible/ansible.cfg",
+      "bytes": 123,
+      "sha256": "259cb0abdbdda40952a3b2581fa538ef7b2ea7f5df3409ebf4b7a0a615f86523"
+    },
+    {
+      "path": "infrastructure/ansible/inventory.yml",
+      "bytes": 61,
+      "sha256": "2a534f3d5be993851a7fb539787948d76eb9c6f293a68b5e2524f4e6009c17e2"
+    },
+    {
+      "path": "infrastructure/docker/README.md",
+      "bytes": 1046,
+      "sha256": "3a53f718bd64583a4cb7edeaace73658515264f52116845489ea33e3c8645f23"
+    },
+    {
+      "path": "infrastructure/grafana/dashboards/README.md",
+      "bytes": 398,
+      "sha256": "73f694f0e9f8ab4f263598c9fa0fa12832602225f3a99ef2802dd9fb56c941ad"
+    },
+    {
+      "path": "infrastructure/grafana/provisioning/datasources/datasources.yml",
+      "bytes": 287,
+      "sha256": "5ba6ea5cd6197424fbf423519c548b109b2685dd577b42b48e33e4577f456275"
+    },
+    {
+      "path": "infrastructure/loki/config.yml",
+      "bytes": 643,
+      "sha256": "9c053e5a9e8b57fc093467e88463ce55e4742307ace4087543b9d566ee55a1a7"
+    },
+    {
+      "path": "infrastructure/prometheus/alerts.yml",
+      "bytes": 1524,
+      "sha256": "9ef16aa9f007857471f48bd232d274dc33ae8bf422ec5738fae16bd5b303fb95"
+    },
+    {
+      "path": "infrastructure/prometheus/prometheus.yml",
+      "bytes": 782,
+      "sha256": "fc96d8eac2d28f2c10e8208dbc249fdb4dbd8679fed830bc5a0eb1210c688fdc"
+    },
+    {
+      "path": "infrastructure/secrets/.sops.yaml.example",
+      "bytes": 156,
+      "sha256": "5a7da387305dd2cc992526f8eb4b85938eb51a3b14a5f203a05a9167a09df8e8"
+    },
+    {
+      "path": "infrastructure/secrets/README.md",
+      "bytes": 698,
+      "sha256": "ab7cd4f47c58c12456cea69a3cc33d7ce74d01ec4ff0576038f54a054d75ab68"
+    },
+    {
+      "path": "infrastructure/waf/README.md",
+      "bytes": 779,
+      "sha256": "9c28a1c1edb986d043562ec882661ac31a395fff6fdd86f8d3125bd0af159c90"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 296,
+      "sha256": "544c143aeef36081a5835032461d4b7909bbb34e27d6903d810e318022a62d7d"
+    },
+    {
+      "path": "scripts/requirements-phase0.txt",
+      "bytes": 147,
+      "sha256": "81454a654a9ff717d099141850aaa95138d7e853d2df7a706035f8b194af6405"
+    },
+    {
+      "path": "scripts/validate_phase0.py",
+      "bytes": 6249,
+      "sha256": "adc1b86b192e26ac4f73ae82d4e94e6d0486da2d44be50dd2fc10fcb46b018f6"
+    },
+    {
+      "path": "security/attack-scenarios/SC-01.md",
+      "bytes": 4399,
+      "sha256": "8eb23ea8c9d8b1be37ba02f893935d3e0a222f16431d8c475360f2dd1951f0d4"
+    },
+    {
+      "path": "security/hardening/README.md",
+      "bytes": 985,
+      "sha256": "75bec0dbfa044659d6e514a3a36c567c115b87b937bd0f0aa462f5c222992df2"
+    },
+    {
+      "path": "security/siem/README.md",
+      "bytes": 1120,
+      "sha256": "d1789740ef8782ee4ac6d239df43879624bd55a7b9a2d4541d2099ed3567caaf"
+    },
+    {
+      "path": "services/auth-service/README.md",
+      "bytes": 353,
+      "sha256": "f809cb2625246195b7d1c24fa87fb313ad3f9c9d8dd73c77326df182e322790c"
+    },
+    {
+      "path": "services/auth-service/requirements.in",
+      "bytes": 243,
+      "sha256": "b8fdc81f9f3c77daaa150e5367bf3c698bee23c16fb9781575037e104bd76bff"
+    },
+    {
+      "path": "services/incident-service/README.md",
+      "bytes": 357,
+      "sha256": "0cc50f4f5883cac05c55c2a2615f9251ac2c7d908175f3d2c198d9cc58ed5650"
+    },
+    {
+      "path": "services/incident-service/requirements.in",
+      "bytes": 238,
+      "sha256": "3d945622cdd44016be52fb3b6f16c596bd44d59b30f426e80a8bdd09932dfe00"
+    },
+    {
+      "path": "services/ml-detector/README.md",
+      "bytes": 352,
+      "sha256": "faa9b956ce23f1e7524ac46e5bbb7202839eaad83b642e79374a9f74b342d0c2"
+    },
+    {
+      "path": "services/ml-detector/requirements.in",
+      "bytes": 177,
+      "sha256": "3dc04a89c173ffc6c15a0af4d457913ee93af1b8945678109f519fca277e485c"
+    },
+    {
+      "path": "services/payment-api/README.md",
+      "bytes": 352,
+      "sha256": "615f05c598e3613219275b6161dcfe26bcec766e06f64c2e834e6a335d03ae53"
+    },
+    {
+      "path": "services/payment-api/requirements.in",
+      "bytes": 223,
+      "sha256": "4e8d76d09da9faaa9597a3d4889ef1f9cf49f67100761a5a2a2311d2e898c65c"
+    },
+    {
+      "path": "services/rag-service/README.md",
+      "bytes": 352,
+      "sha256": "fa9a4b6939d1020a122fdd43fd879f2ec7d8707fd879b196c958f6d1dc8350dc"
+    },
+    {
+      "path": "services/rag-service/requirements.in",
+      "bytes": 246,
+      "sha256": "732c4d0c76398ff007cddb1d1ffb28632a82c1fa4ceb3067bfc4e25c7ff401fa"
+    },
+    {
+      "path": "tests/TEST_PLAN.md",
+      "bytes": 9945,
+      "sha256": "d244772659922e5782c71e72340d4bdc2597376175d130ff8d5fa75df47e2570"
+    }
+  ]
+}

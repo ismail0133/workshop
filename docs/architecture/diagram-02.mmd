@@ -1,0 +1,19 @@
+flowchart TB
+  ML[ml-detector] --> API[API interne anomalies]
+  subgraph INCIDENT[incident-service]
+    API --> M[Incident Manager]
+    M --> SOC[SOC Correlator]
+    SOC --> POL[Policy Engine]
+    POL --> ORCH[Remediation Orchestrator]
+    ORCH --> VAL[Recovery Validator]
+    M --> DB[(ops incidents et événements)]
+    ORCH --> JOB[(ops remediation_actions)]
+    JOBAPI[API jobs] --> JOB
+    VAL --> DB
+  end
+  SOC --> L[loki]
+  SOC --> PR[prometheus]
+  RUN[Runner Ansible] -->|claim| JOBAPI
+  RUN -->|result| ORCH
+  RUN --> WC[Contrôleur local waf]
+  VAL --> W[HTTPS waf vers payment-api]

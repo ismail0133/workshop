@@ -1,0 +1,195 @@
+ Image resilience-alpha-tools:phase1 Building
+ Image resilience-alpha-payment:phase1 Building
+ Image resilience-alpha-auth:phase1 Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.73kB done
+#1 DONE 0.0s
+
+#2 [db-tools internal] load build definition from backend.Dockerfile
+#2 transferring dockerfile: 1.30kB done
+#2 DONE 0.0s
+
+#3 [db-tools internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#3 DONE 0.0s
+
+#4 [auth-service internal] load .dockerignore
+#4 transferring context: 202B done
+#4 DONE 0.0s
+
+#5 [auth-service internal] load build context
+#5 transferring context: 27.58kB 0.0s done
+#5 DONE 0.0s
+
+#6 [payment-api internal] load build context
+#6 transferring context: 35.20kB 0.0s done
+#6 DONE 0.0s
+
+#7 [auth-service base 1/5] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#7 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 0.0s done
+#7 DONE 0.0s
+
+#8 [db-tools internal] load build context
+#8 transferring context: 97.53kB 0.0s done
+#8 DONE 0.0s
+
+#9 [payment-api base 3/5] COPY requirements.lock /app/requirements.lock
+#9 CACHED
+
+#10 [db-tools base 4/5] RUN pip install --no-cache-dir --requirement requirements.lock && pip check     && groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home app     && mkdir -p /var/log/resilience && chown app:app /var/log/resilience
+#10 CACHED
+
+#11 [payment-api base 5/5] COPY shared /app/shared
+#11 DONE 0.0s
+
+#12 [db-tools base 5/5] COPY shared /app/shared
+#12 CACHED
+
+#13 [db-tools base 3/5] COPY requirements.lock /app/requirements.lock
+#13 CACHED
+
+#14 [db-tools base 4/5] RUN pip install --no-cache-dir --requirement requirements.lock && pip check     && groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home app     && mkdir -p /var/log/resilience && chown app:app /var/log/resilience
+#14 CACHED
+
+#15 [auth-service base 4/5] RUN pip install --no-cache-dir --requirement requirements.lock && pip check     && groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home app     && mkdir -p /var/log/resilience && chown app:app /var/log/resilience
+#15 CACHED
+
+#16 [auth-service base 2/5] WORKDIR /app
+#16 CACHED
+
+#17 [auth-service base 5/5] COPY shared /app/shared
+#17 CACHED
+
+#18 [auth-service base 3/5] COPY requirements.lock /app/requirements.lock
+#18 CACHED
+
+#19 [db-tools tools 1/6] COPY database /app/database
+#19 DONE 0.0s
+
+#20 [payment-api payment 1/1] COPY services/payment-api/payment_app /app/payment_app
+#20 DONE 0.0s
+
+#21 [auth-service auth 1/1] COPY services/auth-service/auth_app /app/auth_app
+#21 DONE 0.0s
+
+#22 [payment-api] exporting to image
+#22 exporting layers
+#22 ...
+
+#23 [db-tools tools 2/6] COPY alembic.ini pyproject.toml /app/
+#23 DONE 0.1s
+
+#24 [db-tools tools 3/6] COPY scripts /app/scripts
+#24 DONE 0.0s
+
+#22 [payment-api] exporting to image
+#22 exporting layers 0.1s done
+#22 exporting manifest sha256:2daa46fdad49f0f0efde0280be4eadf8b344797a04cc3dfc2914faeaefdab604
+#22 ...
+
+#25 [db-tools tools 4/6] COPY tests /app/tests
+#25 DONE 0.0s
+
+#26 [db-tools tools 5/6] COPY services/auth-service/auth_app /app/auth_app
+#26 DONE 0.0s
+
+#27 [db-tools tools 6/6] COPY services/payment-api/payment_app /app/payment_app
+#27 DONE 0.0s
+
+#22 [payment-api] exporting to image
+#22 exporting manifest sha256:2daa46fdad49f0f0efde0280be4eadf8b344797a04cc3dfc2914faeaefdab604 done
+#22 exporting config sha256:fd485e88eecc3f42fac845b543fa9a1312fc73cd75ae2ad6f5c49226851def6c done
+#22 exporting attestation manifest sha256:ec0c91bc8c2d0d9ef34817a2c6cfd73e3e3090741a88d365498c0dfce4a58184 0.0s done
+#22 exporting manifest list sha256:98407e5239d9bdf26eda527db846403f00ccb28aee7a07e6a6e2774b74da1f3e done
+#22 naming to docker.io/library/resilience-alpha-payment:phase1 done
+#22 unpacking to docker.io/library/resilience-alpha-payment:phase1 0.0s done
+#22 DONE 0.2s
+
+#28 [auth-service] exporting to image
+#28 exporting layers 0.1s done
+#28 exporting manifest sha256:a85053cac4fa37b5718b42855ed04231b730a14e8df617c555c4e1d864f16ed5 done
+#28 exporting config sha256:ccabfd120e7e7fcf563185de8e78174d3deebc50d2bcc0fb4720a4550c8a0f0b 0.0s done
+#28 exporting attestation manifest sha256:f504731dfd258a0ee555537ce1b2a27ddb2b53a54cc51c602cbd8ab310869ea1 0.0s done
+#28 exporting manifest list sha256:6a4c76e7b5710aaab8565ef77171738ea79cc92a5db60dc53e30aa8e206752a6 done
+#28 naming to docker.io/library/resilience-alpha-auth:phase1 done
+#28 unpacking to docker.io/library/resilience-alpha-auth:phase1 0.0s done
+#28 DONE 0.2s
+
+#29 [db-tools] exporting to image
+#29 exporting layers 0.2s done
+#29 exporting manifest sha256:16dc26a58ba47f2ac4ea5e874ba1e8043adbc9f10c4ab64c8dc30285e67be025 done
+#29 exporting config sha256:67f5ddb520c39989e2d7ff9a544ab5e68cb07842817ad525ca5182f8e3f04343 0.0s done
+#29 exporting attestation manifest sha256:fc6ccb5f919cd5e0719fe91725891b85eaae3782d8e87fa9b63234fcb668d8db 0.0s done
+#29 exporting manifest list sha256:de2b08f155f66c22cf7482e0881ebda4ab37a740cf705d3b71d7b293757b6685 done
+#29 naming to docker.io/library/resilience-alpha-tools:phase1 done
+#29 unpacking to docker.io/library/resilience-alpha-tools:phase1 0.0s done
+#29 DONE 0.3s
+
+#30 [auth-service] resolving provenance for metadata file
+#30 DONE 0.0s
+
+#31 [payment-api] resolving provenance for metadata file
+#31 DONE 0.0s
+
+#32 [db-tools] resolving provenance for metadata file
+#32 DONE 0.0s
+ Image resilience-alpha-payment:phase1 Built
+ Image resilience-alpha-tools:phase1 Built
+ Image resilience-alpha-auth:phase1 Built
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-db-tools-run-35d14c4b8f7b Creating
+ Container resilience-alpha-test-db-tools-run-35d14c4b8f7b Created
+Runtime secrets staged with service-specific ownership.
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-db-tools-run-98668eb686a0 Creating
+ Container resilience-alpha-test-db-tools-run-98668eb686a0 Created
+Database roles provisioned; credentials not printed.
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-db-tools-run-6bbbe9c3991c Creating
+ Container resilience-alpha-test-db-tools-run-6bbbe9c3991c Created
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-db-tools-run-78a3f2bb167b Creating
+ Container resilience-alpha-test-db-tools-run-78a3f2bb167b Created
+Fictional seed ready; existing balances/passwords preserved.
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-payment-api-1 Recreate
+ Container resilience-alpha-test-auth-service-1 Recreate
+ Container resilience-alpha-test-payment-api-1 Recreated
+ Container resilience-alpha-test-auth-service-1 Recreated
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-payment-api-1 Starting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-auth-service-1 Starting
+ Container resilience-alpha-test-auth-service-1 Started
+ Container resilience-alpha-test-payment-api-1 Started
+ Container resilience-alpha-test-auth-service-1 Waiting
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-payment-api-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-payment-api-1 Healthy
+ Container resilience-alpha-test-auth-service-1 Healthy
+ Container resilience-alpha-test-postgres-1 Running
+ Container resilience-alpha-test-postgres-1 Waiting
+ Container resilience-alpha-test-postgres-1 Healthy
+ Container resilience-alpha-test-db-tools-run-0a958131bb23 Creating
+ Container resilience-alpha-test-db-tools-run-0a958131bb23 Created
+.............................................                            [100%]
+=============================== warnings summary ===============================
+tests/integration/test_backend.py::test_invalid_jwt[algorithm]
+  /usr/local/lib/python3.12/site-packages/jwt/api_jwt.py:149: InsecureKeyLengthWarning: The HMAC key is 21 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+    return self._jws.encode(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+45 passed, 1 warning in 25.81s

@@ -1,0 +1,89 @@
+erDiagram
+  users ||--o{ accounts : possede
+  users ||--o{ transactions : initie
+  accounts ||--o{ transactions : debite
+  accounts ||--o{ transactions : credite
+  incidents ||--o{ incident_events : contient
+  incidents ||--o{ remediation_actions : autorise
+  remediation_actions o|--o{ remediation_actions : compense
+  incidents o|--o{ incidents : parent
+  transactions o|--o{ incidents : preuve_reprise
+  users {
+    uuid id PK
+    varchar email UK
+    text password_hash
+    varchar role
+    boolean is_active
+    timestamptz created_at
+  }
+  accounts {
+    uuid id PK
+    uuid owner_user_id FK
+    varchar label
+    char currency
+    bigint balance_minor
+    boolean is_synthetic
+    varchar status
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  transactions {
+    uuid id PK
+    uuid actor_user_id FK
+    uuid source_account_id FK
+    uuid destination_account_id FK
+    bigint amount_minor
+    char currency
+    varchar idempotency_key
+    char request_hash
+    varchar status
+    varchar failure_code
+    timestamptz created_at
+  }
+  incidents {
+    uuid id PK
+    uuid parent_incident_id FK
+    varchar service
+    varchar scenario
+    char fingerprint
+    varchar status
+    varchar severity
+    inet source_ip
+    varchar summary
+    varchar policy_version
+    integer version
+    timestamptz detected_at
+    timestamptz updated_at
+    timestamptz deadline_at
+    timestamptz closed_at
+    uuid recovery_transaction_id FK
+  }
+  incident_events {
+    uuid id PK
+    uuid incident_id FK
+    bigint sequence
+    varchar event_type
+    timestamptz occurred_at
+    timestamptz recorded_at
+    uuid request_id
+    jsonb payload
+  }
+  remediation_actions {
+    uuid id PK
+    uuid incident_id FK
+    varchar kind
+    varchar status
+    inet target_ip
+    integer ttl_seconds
+    varchar policy_version
+    integer attempt
+    bigint fencing_token
+    uuid lease_token
+    uuid related_action_id FK
+    timestamptz lease_expires_at
+    char request_hash
+    jsonb result
+    timestamptz created_at
+    timestamptz started_at
+    timestamptz finished_at
+  }

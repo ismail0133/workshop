@@ -1,0 +1,13 @@
+flowchart LR
+  PR[prometheus] --> COL[Collecte toutes les 5 s - fenêtre 15 s]
+  COL --> Q{8 features fraîches et complètes ?}
+  Q -->|Non| MISS[DATA_UNAVAILABLE - abstention]
+  Q -->|Oui| PRE[Ordre features + log1p + scaler train]
+  PRE --> IF[Isolation Forest figée]
+  TRAIN[Session train normale] --> FIT[Apprentissage et manifeste]
+  FIT --> IF
+  VALID[Session validation indépendante] --> TH[Seuil et anti-flap]
+  IF --> TH
+  TH --> EVT[Anomaly v1 vers incident-service]
+  TEST[Session test gelée] --> EVAL[Precision recall F1 FP et délais]
+  IF --> EVAL

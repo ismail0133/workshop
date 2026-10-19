@@ -1,0 +1,18 @@
+[project]
+name = "resilience-alpha"
+version = "0.1.0"
+description = "Phase 1 : backend bancaire fictif transactionnel"
+requires-python = ">=3.12,<3.13"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/integration", "tests/e2e", "tests/recovery"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+# FastAPI's dependency descriptors are intentionally evaluated in signatures.
+ignore = ["B008"]

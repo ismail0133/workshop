@@ -1,0 +1,27 @@
+flowchart LR
+  U[Client légitime] --> W[waf]
+  AT[PC Attaquant autorisé] --> W
+  W --> F[frontend]
+  W --> A[auth-service]
+  W --> P[payment-api]
+  W --> I[incident-service]
+  W --> R[rag-service]
+  A --> DB[(postgres)]
+  P --> DB
+  I --> DB
+  PR[prometheus] -->|scrape| P
+  ML[ml-detector] -->|requêtes| PR
+  ML -->|anomalies| I
+  P -->|logs| AL[alloy]
+  W -->|logs| AL
+  I -->|logs| AL
+  AL --> L[loki]
+  I -->|corrélation| L
+  I -->|validation métriques| PR
+  RUN[remediation-runner] -->|claim et result| I
+  RUN -->|Ansible - socket Unix| W
+  I -->|paiement de validation| W
+  G[grafana] --> PR
+  G --> L
+  R --> FA[(FAISS et documents)]
+  R --> O[ollama]

@@ -1,0 +1,30 @@
+groups:
+  - name: resilience-foundation
+    rules:
+      - alert: ServiceUnavailable
+        expr: up == 0
+        for: 10s
+        labels: {severity: critical}
+        annotations: {summary: 'Service non joignable : {{ $labels.job }}'}
+      - alert: PaymentScrapesAbsent
+        expr: absent_over_time(up{job="payment-api"}[15s])
+        labels: {severity: critical}
+        annotations: {summary: 'Aucun scrape payment-api depuis 15 secondes'}
+      - alert: PaymentErrors
+        expr: 'sum(rate(http_requests_total{service="payment-api",traffic="business",status_class="5xx"}[15s])) / sum(rate(http_requests_total{service="payment-api",traffic="business"}[15s])) > 0.05'
+        for: 10s
+        labels: {severity: warning}
+        annotations: {summary: 'Taux 5xx supérieur à 5 % sous trafic'}
+      - alert: PaymentLatency
+        expr: 'histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{service="payment-api",traffic="business"}[15s]))) > 0.5'
+        for: 10s
+        labels: {severity: warning}
+        annotations: {summary: 'p95 paiement supérieur à 500 ms'}
+      - alert: MLDataUnavailable
+        expr: 'increase(ml_windows_total{status="invalid"}[30s]) > 0'
+        labels: {severity: warning}
+        annotations: {summary: 'Fenêtres ML invalides : diagnostic nécessaire'}
+      - alert: RecoveryFailed
+        expr: 'increase(incidents_total{status="RECOVERY_FAILED"}[1m]) > 0'
+        labels: {severity: critical}
+        annotations: {summary: 'Reprise non validée'}

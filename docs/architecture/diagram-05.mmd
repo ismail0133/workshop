@@ -1,0 +1,26 @@
+sequenceDiagram
+  actor U as Client
+  participant W as waf
+  participant A as auth-service
+  participant P as payment-api
+  participant DB as postgres
+  U->>W: POST /api/auth/login
+  W->>A: Identifiants fictifs
+  A->>DB: Lire utilisateur et hash
+  DB-->>A: Utilisateur actif
+  A-->>U: JWT via WAF
+  U->>W: POST /api/payments + JWT + Idempotency-Key
+  W->>P: Corps validé et request_id
+  P->>P: Signature, rôle, schéma
+  P->>DB: BEGIN + verrou clé acteur
+  P->>DB: Recherche transaction existante
+  alt Rejeu identique
+    DB-->>P: Même résultat
+    P-->>U: 200 SUCCEEDED ou 409 REJECTED via WAF
+  else Nouvelle intention
+    P->>DB: Verrouiller comptes dans ordre UUID
+    P->>P: Propriété, monnaie, soldes
+    P->>DB: Débit + crédit + transaction SUCCEEDED ou rejet sans mutation
+    P->>DB: COMMIT
+    P-->>U: 201 SUCCEEDED ou 409 REJECTED via WAF
+  end

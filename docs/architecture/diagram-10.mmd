@@ -1,0 +1,15 @@
+flowchart TB
+  DOC[Documentation et runbooks autorisés] --> HASH[Manifestes et SHA256]
+  HASH --> CH[Chunks par sections 350 tokens overlap 50]
+  CH --> EMB[Ollama nomic-embed-text]
+  EMB --> IDX[(FAISS IndexFlatIP + métadonnées JSON)]
+  OP[Opérateur authentifié] --> API[rag-service LangChain]
+  API --> EMB
+  API --> RET[Retrieval top 3]
+  IDX --> RET
+  RET --> REL{Pertinence suffisante ?}
+  REL -->|Non| AB[Abstention citée comme telle]
+  REL -->|Oui| CTX[Prompt borné et contexte non fiable]
+  CTX --> LLM[Ollama qwen2.5 1.5b]
+  LLM --> VERIFY[Validation des références]
+  VERIFY --> RES[Réponse documentaire sans outil administratif]

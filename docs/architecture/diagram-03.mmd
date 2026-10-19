@@ -1,0 +1,27 @@
+flowchart TB
+  subgraph DEV[Développement Mac M5 ARM64 16 Gio]
+    MAC[Docker Desktop VM Linux]
+    OM[Ollama natif option de développement]
+  end
+  subgraph HOST[PC Hôte Windows 10 ou 11 - Docker Desktop WSL2]
+    PA[PA mobile Windows - 192.168.137.1]
+    subgraph DOCKER[Conteneurs Linux AMD64 ou ARM64 selon machine]
+      W[waf et contrôleur local]
+      AP[frontend + auth + payment + incident + ML + RAG]
+      TECH[postgres + prometheus + grafana + loki + alloy]
+      RUN[remediation-runner]
+      OH[ollama local si ressources suffisantes]
+      W --> AP
+      AP --> TECH
+      RUN --> W
+      AP --> OH
+    end
+    PA --> W
+  end
+  ATT[PC Attaquant distinct - aucun composant défensif] -->|PA du groupe uniquement| PA
+  CLIENT[Client légitime] --> PA
+  subgraph IA[PC IA facultatif]
+    OD[Ollama et interface seulement]
+  end
+  AP -. accès restreint si délestage .-> OD
+  MAC -. sources et configuration portables .-> DOCKER

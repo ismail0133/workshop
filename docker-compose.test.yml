@@ -1,0 +1,16 @@
+services:
+  postgres:
+    environment:
+      POSTGRES_DB: resilience_test
+  auth-service:
+    environment:
+      DB_NAME: resilience_test
+      LOGIN_RATE_LIMIT: '1000'
+  payment-api:
+    environment:
+      DB_NAME: resilience_test
+  db-tools:
+    environment:
+      DB_NAME: resilience_test
+      AUTH_URL: http://auth-service:8001
+      PAYMENT_URL: http://payment-api:8000

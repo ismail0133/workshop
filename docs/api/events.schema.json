@@ -1,0 +1,686 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:resilience-alpha:events:1",
+  "title": "Événements internes v1",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Anomaly"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "SOC_EVIDENCE"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rule_id": {
+              "type": "string"
+            },
+            "window_start": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "window_end": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "source_ip": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "ipv4"
+            },
+            "request_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "source_share": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "matched_request_ids": {
+              "type": "array",
+              "maxItems": 50,
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "evidence_refs": {
+              "type": "array",
+              "maxItems": 20,
+              "items": {
+                "type": "string"
+              }
+            },
+            "decision": {
+              "type": "string",
+              "enum": [
+                "CONFIRMED",
+                "INSUFFICIENT",
+                "AMBIGUOUS"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "rule_id",
+            "window_start",
+            "window_end",
+            "source_ip",
+            "request_count",
+            "source_share",
+            "matched_request_ids",
+            "evidence_refs",
+            "decision",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "STATE_CHANGED"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "from": {
+              "type": "string",
+              "enum": [
+                "DETECTED",
+                "ANALYZING",
+                "CONFIRMED",
+                "REJECTED",
+                "REMEDIATING",
+                "VALIDATING",
+                "RECOVERED",
+                "RECOVERY_FAILED"
+              ]
+            },
+            "to": {
+              "type": "string",
+              "enum": [
+                "DETECTED",
+                "ANALYZING",
+                "CONFIRMED",
+                "REJECTED",
+                "REMEDIATING",
+                "VALIDATING",
+                "RECOVERED",
+                "RECOVERY_FAILED"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            },
+            "policy_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "from",
+            "to",
+            "reason",
+            "policy_version"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "ACTION_QUEUED"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "BLOCK_SOURCE_IP",
+                "REMOVE_SOURCE_BLOCK"
+              ]
+            },
+            "target_ip": {
+              "type": "string",
+              "format": "ipv4"
+            },
+            "ttl_seconds": {
+              "type": "integer",
+              "minimum": 30,
+              "maximum": 300
+            },
+            "policy_version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action_id",
+            "kind",
+            "target_ip",
+            "ttl_seconds",
+            "policy_version"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "ACTION_RESULT"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "SUCCEEDED",
+                "FAILED"
+              ]
+            },
+            "receipt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "error_code": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "action_id",
+            "status",
+            "receipt",
+            "error_code"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "VALIDATION_RESULT"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "transaction_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uuid"
+            },
+            "ready": {
+              "type": "boolean"
+            },
+            "metrics_ok": {
+              "type": "boolean"
+            },
+            "balances_ok": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "success",
+            "transaction_id",
+            "ready",
+            "metrics_ok",
+            "balances_ok",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "DATA_UNAVAILABLE"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "prometheus",
+                "loki",
+                "model",
+                "database"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "incident_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "DUPLICATE_SUPPRESSED"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "original_event_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "original_event_id",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "incident_id",
+        "timestamp",
+        "event_type",
+        "payload"
+      ]
+    }
+  ],
+  "$defs": {
+    "Anomaly": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "ANOMALY_DETECTED"
+          ]
+        },
+        "service": {
+          "type": "string",
+          "enum": [
+            "payment-api"
+          ]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "window_start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "window_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "enum": [
+                "isolation_forest"
+              ]
+            },
+            "version": {
+              "type": "string"
+            },
+            "artifact_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "decision_score": {
+              "type": "number"
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "is_anomaly": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [
+            "name",
+            "version",
+            "artifact_sha256",
+            "decision_score",
+            "threshold",
+            "is_anomaly"
+          ]
+        },
+        "features": {
+          "$ref": "#/$defs/Features"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "event_type",
+        "service",
+        "timestamp",
+        "window_start",
+        "window_end",
+        "model",
+        "features"
+      ]
+    },
+    "Features": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "request_rate": {
+          "type": "number",
+          "minimum": 0
+        },
+        "http_5xx_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "http_4xx_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "latency_p95_ms": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cpu_usage_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "memory_usage_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "active_requests": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payment_failure_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "request_rate",
+        "http_5xx_rate",
+        "http_4xx_rate",
+        "latency_p95_ms",
+        "cpu_usage_percent",
+        "memory_usage_percent",
+        "active_requests",
+        "payment_failure_rate"
+      ]
+    }
+  }
+}

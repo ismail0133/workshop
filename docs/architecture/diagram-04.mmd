@@ -1,0 +1,23 @@
+flowchart LR
+  PC[Clients du PA] -->|HTTPS 8443 seul port public| W[waf]
+  W -->|edge HTTP 8080| F[frontend]
+  W -->|app HTTP 8001| A[auth]
+  W -->|app HTTP 8000| P[payment]
+  W -->|app HTTP 8002| I[incident]
+  W -->|app HTTP 8004| R[RAG]
+  A -->|data TCP 5432| DB[(postgres)]
+  P -->|data TCP 5432| DB
+  I -->|data TCP 5432| DB
+  RUN[runner] -->|control HTTP 8002 token dédié| I
+  RUN -->|socket Unix privé| W
+  I -->|HTTPS 8443 validation| W
+  PR[prometheus] -->|observability scrape 5 s| P
+  PR -->|observability scrape| I
+  ML[ML] -->|HTTP 9090| PR
+  ML -->|HTTP 8002 token ML| I
+  AL[alloy] -->|HTTP 3100| L[loki]
+  I -->|HTTP 3100| L
+  I -->|HTTP 9090| PR
+  G[grafana loopback hôte 3000] --> PR
+  G --> L
+  R -->|ai HTTP 11434| O[ollama]

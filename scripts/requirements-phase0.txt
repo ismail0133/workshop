@@ -1,0 +1,5 @@
+# Outils de validation documentaire, pas dépendances runtime bancaire.
+jsonschema==4.26.0
+PyYAML==6.0.3
+openapi-spec-validator==0.9.0
+pglast==8.7

@@ -1,0 +1,25 @@
+sequenceDiagram
+  participant ML as ml-detector
+  participant PR as prometheus
+  participant I as incident-service
+  participant DB as postgres
+  participant L as loki
+  participant RUN as remediation-runner
+  participant W as waf
+  ML->>PR: Requêtes features fenêtre 15 s
+  PR-->>ML: Mesures réelles
+  ML->>ML: Isolation Forest + deux scores anormaux
+  ML->>I: POST /internal/anomalies
+  I->>DB: Déduplication + incident + événement
+  I-->>ML: 202 ou 200 duplicate
+  I->>L: Corréler IP et request_id
+  L-->>I: Preuves de fenêtre
+  I->>DB: CONFIRMED et action PENDING
+  RUN->>I: POST /internal/remediation/jobs/claim
+  I-->>RUN: Action et bail
+  RUN->>W: Ansible vers socket Unix
+  W-->>RUN: Reçu configuration appliquée
+  RUN->>I: POST /internal/remediation/jobs/id/result
+  I->>W: Readiness puis paiement de validation
+  I->>PR: Mesures entièrement post-action
+  I->>DB: VALIDATION_RESULT et état terminal

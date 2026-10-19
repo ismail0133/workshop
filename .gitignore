@@ -1,0 +1,31 @@
+# Secrets et données locales
+.env
+.env.*
+!.env.example
+infrastructure/secrets/runtime/
+*.key
+*.pem
+*.agekey
+# Dépendances / caches
+.venv*/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+# Données et preuves non sélectionnées
+artifacts/runtime/
+*.dump
+*.sqlite*
+*.joblib
+*.faiss
+
+# Outils de qualité et fichiers locaux
+.ruff_cache/
+.mypy_cache/
+*.log
+*.swp
+*~

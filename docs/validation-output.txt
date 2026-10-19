@@ -1,0 +1,65 @@
+PASS — 63 contrôles documentaires ; 19 chemins OpenAPI ; 18 instructions SQL parsées.
+PASS 13 documents demandés présents et non vides
+PASS Tous les fichiers JSON sont lisibles
+PASS YAML et TOML : syntaxe valide
+PASS OpenAPI 3.1 validée par openapi-spec-validator
+PASS JSON Schema 2020-12 et exemple anomalie validés, formats inclus
+PASS SQL parsé par pglast : six tables attendues, aucune exécution
+PASS Champs User compatibles avec colonnes users
+PASS Champs Account compatibles avec colonnes accounts
+PASS Champs Payment compatibles avec colonnes transactions
+PASS Champs Incident compatibles avec colonnes incidents
+PASS Champs IncidentEvent compatibles avec colonnes incident_events
+PASS Champs Action compatibles avec colonnes remediation_actions
+PASS Onze blocs Mermaid présents
+PASS Diagramme 01 identique à sa source Markdown
+PASS Diagramme 02 identique à sa source Markdown
+PASS Diagramme 03 identique à sa source Markdown
+PASS Diagramme 04 identique à sa source Markdown
+PASS Diagramme 05 identique à sa source Markdown
+PASS Diagramme 06 identique à sa source Markdown
+PASS Diagramme 07 identique à sa source Markdown
+PASS Diagramme 08 identique à sa source Markdown
+PASS Diagramme 09 identique à sa source Markdown
+PASS Diagramme 10 identique à sa source Markdown
+PASS Diagramme 11 identique à sa source Markdown
+PASS ER couvre les six tables SQL
+PASS États incidents cohérents OpenAPI et Mermaid
+PASS Traçabilité : 80 identifiants uniques
+PASS Chaque ligne EPSI possède un protocole de test/revue
+PASS Toutes les pages sources sont dans le PDF 12 pages
+PASS Lien local valide : README.md → PHASE_0_REPORT.md
+PASS Lien local valide : README.md → docs/architecture/ARCHITECTURE.md
+PASS Lien local valide : README.md → docs/architecture/SERVICE_CATALOG.md
+PASS Lien local valide : README.md → docs/architecture/DATA_FLOWS.md
+PASS Lien local valide : README.md → docs/architecture/DIAGRAMS.md
+PASS Lien local valide : README.md → docs/REQUIREMENTS_TRACEABILITY.md
+PASS Lien local valide : README.md → docs/api/API_CONTRACTS.md
+PASS Lien local valide : README.md → docs/api/openapi.json
+PASS Lien local valide : README.md → docs/database/DATABASE_DESIGN.md
+PASS Lien local valide : README.md → docs/database/initial_schema.sql
+PASS Lien local valide : README.md → docs/ml/ML_DESIGN.md
+PASS Lien local valide : README.md → docs/rag/RAG_DESIGN.md
+PASS Lien local valide : README.md → docs/observability/OBSERVABILITY_DESIGN.md
+PASS Lien local valide : README.md → docs/security/SECURITY_ARCHITECTURE.md
+PASS Lien local valide : README.md → docs/security/REMEDIATION_DESIGN.md
+PASS Lien local valide : README.md → docs/FEASIBILITY_STUDY.md
+PASS Lien local valide : README.md → docs/IMPLEMENTATION_PLAN.md
+PASS Lien local valide : README.md → tests/TEST_PLAN.md
+PASS Lien local valide : README.md → docs/ebios/EBIOS_RM.md
+PASS Lien local valide : README.md → docs/pca-pra/PCA_PRA.md
+PASS Lien local valide : README.md → docs/compliance/NIS2_DORA.md
+PASS Lien local valide : README.md → docs/architecture/TECHNOLOGY_VALIDATION.md
+PASS Lien local valide : README.md → docs/VALIDATION_REPORT.md
+PASS Lien local valide : docs/database/DATABASE_DESIGN.md → initial_schema.sql
+PASS Lien local valide : docs/security/SECURITY_ARCHITECTURE.md → ../../security/attack-scenarios/SC-01.md
+PASS Lien local valide : docs/security/SECURITY_ARCHITECTURE.md → REMEDIATION_DESIGN.md
+PASS Lien local valide : docs/architecture/ARCHITECTURE.md → ../REQUIREMENTS_TRACEABILITY.md
+PASS Lien local valide : docs/api/API_CONTRACTS.md → openapi.json
+PASS Lien local valide : docs/api/API_CONTRACTS.md → events.schema.json
+PASS Cible Compose : 14 composants, dont 5 services de socle et 9 planifiés
+PASS Services du socle sous profil explicite foundation
+PASS Aucun socket Docker dans Compose
+PASS Aucune migration applicative créée ou exécutée
+PASS Docker Compose config validé sans contacter le daemon : OK
+Limites : pas de rendu/parser Mermaid, ni tests runtime, migrations, images, modèle ML ou reprise.

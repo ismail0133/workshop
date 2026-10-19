@@ -1,0 +1,18 @@
+flowchart TD
+  E[Anomalie persistée] --> C{Preuves SOC fraîches et IP autorisée ?}
+  C -->|Non| REJ[REJECTED avec motif]
+  C -->|Oui| POL[Politique SC-01 versionnée]
+  POL --> JOB[Action durable unique]
+  JOB --> RUN[Runner prend bail et fencing token]
+  RUN --> CHECK[Validation paramètres et catalogue fermé]
+  CHECK --> W[Contrôleur WAF valide config et applique atomiquement]
+  W --> ACK{Reçu acquis ?}
+  ACK -->|Timeout| REC[Réconcilier action_id avant retry borné]
+  REC --> ACK2{Action appliquée ou retry réussi ?}
+  ACK2 -->|Non| FAIL[RECOVERY_FAILED]
+  ACK2 -->|Oui| V[Valider via WAF et métriques post-action]
+  ACK -->|Oui| V
+  V --> OK{Readiness, métriques et nouveau paiement cohérent ?}
+  OK -->|Oui| DONE[RECOVERED avec transaction_id]
+  OK -->|Non| FAIL
+  FAIL --> COMP[Compensation ciblée si règle incorrecte]

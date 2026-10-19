@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> DETECTED
+  DETECTED --> ANALYZING
+  ANALYZING --> CONFIRMED: preuves et politique valides
+  ANALYZING --> REJECTED: insuffisant ou délai analyse
+  CONFIRMED --> REMEDIATING: action persistée
+  CONFIRMED --> RECOVERY_FAILED: erreur ou deadline
+  REMEDIATING --> VALIDATING: reçu WAF vérifié
+  REMEDIATING --> RECOVERY_FAILED: essais épuisés ou deadline
+  VALIDATING --> RECOVERED: paiement et mesures valides
+  VALIDATING --> RECOVERY_FAILED: échec ou timeout
+  REJECTED --> [*]
+  RECOVERED --> [*]
+  RECOVERY_FAILED --> [*]

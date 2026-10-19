@@ -1,0 +1,14 @@
+**/.git
+**/.venv*
+**/__pycache__
+**/.pytest_cache
+**/node_modules
+infrastructure/secrets/runtime
+.env
+.env.*
+!/.env.example
+*.pem
+*.key
+docs
+frontend
+artifacts

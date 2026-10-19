@@ -1,0 +1,17 @@
+{
+  "before_minor": {
+    "Compte A": 100000,
+    "Compte B": 50000
+  },
+  "after_minor": {
+    "Compte A": 80000,
+    "Compte B": 70000
+  },
+  "status": "SUCCESS",
+  "first_http": 201,
+  "replay_http": 200,
+  "transaction_id": "8c13befd-4718-4138-98d3-106a65cd79cb",
+  "matching_database_rows": 1,
+  "sum_minor": 150000,
+  "direct_postgresql_check": "PASS"
+}

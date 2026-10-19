@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 2s
+  evaluation_interval: 5s
+rule_files: [/etc/prometheus/alerts.yml]
+scrape_configs:
+  - job_name: prometheus
+    static_configs: [{targets: ['prometheus:9090']}]
+  - job_name: payment-api
+    static_configs: [{targets: ['payment-api:8000']}]
+  - job_name: auth-service
+    static_configs: [{targets: ['auth-service:8001']}]
+  - job_name: incident-service
+    static_configs: [{targets: ['incident-service:8002']}]
+  - job_name: ml-detector
+    static_configs: [{targets: ['ml-detector:8003']}]
+  - job_name: rag-service
+    static_configs: [{targets: ['rag-service:8004']}]
+  - job_name: remediation-runner
+    static_configs: [{targets: ['remediation-runner:8005']}]
+  - job_name: waf
+    static_configs: [{targets: ['waf:9113']}]

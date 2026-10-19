@@ -1,0 +1,21 @@
+// Phase 0 : producteurs à implémenter, aucun log synthétique.
+local.file_match "services" {
+  path_targets = [
+    {__path__ = "/var/log/resilience/payment/*.jsonl", service = "payment-api", env = "lab"},
+    {__path__ = "/var/log/resilience/auth/*.jsonl", service = "auth-service", env = "lab"},
+    {__path__ = "/var/log/resilience/incident/*.jsonl", service = "incident-service", env = "lab"},
+    {__path__ = "/var/log/resilience/ml/*.jsonl", service = "ml-detector", env = "lab"},
+    {__path__ = "/var/log/resilience/rag/*.jsonl", service = "rag-service", env = "lab"},
+    {__path__ = "/var/log/resilience/waf/*.jsonl", service = "waf", env = "lab"},
+    {__path__ = "/var/log/resilience/runner/*.jsonl", service = "remediation-runner", env = "lab"},
+  ]
+}
+loki.source.file "services" {
+  targets = local.file_match.services.targets
+  forward_to = [loki.write.local.receiver]
+}
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

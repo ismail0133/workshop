@@ -1,0 +1,2 @@
+# Les deux services utilisent le verrou commun testé sous Python 3.12.
+-r ../../requirements.lock

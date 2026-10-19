@@ -1,0 +1,362 @@
+# Phase 1 backend; future observability kept under foundation profile.
+name: resilience-alpha
+x-planned-services:
+  frontend:
+    port: 8080
+    networks:
+    - edge
+    phase: 2
+  incident-service:
+    port: 8002
+    networks:
+    - app
+    - data
+    - observability
+    - control
+    phase: 5
+  ml-detector:
+    port: 8003
+    networks:
+    - observability
+    - control
+    phase: 4
+  rag-service:
+    port: 8004
+    networks:
+    - app
+    - ai
+    - observability
+    phase: 7
+  waf:
+    port: 8443
+    networks:
+    - edge
+    - app
+    - observability
+    phase: 6
+  remediation-runner:
+    port: 8005
+    networks:
+    - control
+    - observability
+    phase: 5
+  ollama:
+    port: 11434
+    networks:
+    - ai
+    phase: 7
+services:
+  postgres:
+    image: postgres:17-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826
+    environment:
+      POSTGRES_DB: ${DB_NAME:-resilience}
+      POSTGRES_USER: resilience_bootstrap
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      TZ: UTC
+    command:
+    - postgres
+    - -c
+    - timezone=UTC
+    - -c
+    - max_connections=40
+    - -c
+    - shared_buffers=128MB
+    secrets:
+    - postgres_password
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+    networks:
+    - data
+    mem_limit: 768m
+    cpus: 1.0
+    security_opt:
+    - no-new-privileges:true
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U resilience_bootstrap -d "$$POSTGRES_DB"
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+  prometheus:
+    image: ${PROMETHEUS_IMAGE:-prom/prometheus:v3.5.0}
+    profiles:
+    - foundation
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    - --storage.tsdb.path=/prometheus
+    - --storage.tsdb.retention.time=48h
+    - --storage.tsdb.retention.size=1GB
+    volumes:
+    - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - ./infrastructure/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+    - prometheus_data:/prometheus
+    networks:
+    - observability
+    mem_limit: 512m
+    cpus: 0.5
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+  grafana:
+    image: ${GRAFANA_IMAGE:-grafana/grafana:12.1.0}
+    profiles:
+    - foundation
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana_password
+      GF_AUTH_ANONYMOUS_ENABLED: 'false'
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+    secrets:
+    - grafana_password
+    ports:
+    - 127.0.0.1:3000:3000
+    volumes:
+    - grafana_data:/var/lib/grafana
+    - ./infrastructure/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+    - observability
+    mem_limit: 384m
+    cpus: 0.5
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+  loki:
+    image: ${LOKI_IMAGE:-grafana/loki:3.5.3}
+    profiles:
+    - foundation
+    command:
+    - -config.file=/etc/loki/config.yml
+    volumes:
+    - ./infrastructure/loki/config.yml:/etc/loki/config.yml:ro
+    - loki_data:/loki
+    networks:
+    - observability
+    mem_limit: 512m
+    cpus: 0.5
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+  alloy:
+    image: ${ALLOY_IMAGE:-grafana/alloy:v1.10.2}
+    profiles:
+    - foundation
+    command:
+    - run
+    - /etc/alloy/config.alloy
+    - --storage.path=/var/lib/alloy
+    volumes:
+    - ./infrastructure/alloy/config.alloy:/etc/alloy/config.alloy:ro
+    - alloy_data:/var/lib/alloy
+    - payment_logs:/var/log/resilience/payment:ro
+    - auth_logs:/var/log/resilience/auth:ro
+    - incident_logs:/var/log/resilience/incident:ro
+    - ml_logs:/var/log/resilience/ml:ro
+    - rag_logs:/var/log/resilience/rag:ro
+    - waf_logs:/var/log/resilience/waf:ro
+    - runner_logs:/var/log/resilience/runner:ro
+    networks:
+    - observability
+    mem_limit: 256m
+    cpus: 0.25
+    read_only: true
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+  auth-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/backend.Dockerfile
+      target: auth
+    image: resilience-alpha-auth:phase1
+    environment:
+      DB_HOST: postgres
+      DB_NAME: ${DB_NAME:-resilience}
+      DB_USER: resilience_auth
+      DB_PASSWORD_FILE: /run/app-secrets/db_password
+      JWT_PUBLIC_KEY_FILE: /run/app-secrets/jwt_public.pem
+      LOG_DIR: /var/log/resilience
+      JWT_PRIVATE_KEY_FILE: /run/app-secrets/jwt_private.pem
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+    - app
+    - data
+    - observability
+    volumes:
+    - auth_runtime_secrets:/run/app-secrets:ro
+    - auth_logs:/var/log/resilience
+    read_only: true
+    tmpfs:
+    - /tmp:size=16m,mode=1777
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      test:
+      - CMD
+      - python
+      - -c
+      - import urllib.request; urllib.request.urlopen("http://127.0.0.1:8001/health",
+        timeout=2).read()
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 15s
+  payment-api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/backend.Dockerfile
+      target: payment
+    image: resilience-alpha-payment:phase1
+    environment:
+      DB_HOST: postgres
+      DB_NAME: ${DB_NAME:-resilience}
+      DB_USER: resilience_bank
+      DB_PASSWORD_FILE: /run/app-secrets/db_password
+      JWT_PUBLIC_KEY_FILE: /run/app-secrets/jwt_public.pem
+      LOG_DIR: /var/log/resilience
+      CURSOR_KEY_FILE: /run/app-secrets/cursor_key
+      CPU_LIMIT_CORES: '0.75'
+      MEMORY_LIMIT_BYTES: '402653184'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+    - app
+    - data
+    - observability
+    volumes:
+    - payment_runtime_secrets:/run/app-secrets:ro
+    - payment_logs:/var/log/resilience
+    read_only: true
+    tmpfs:
+    - /tmp:size=16m,mode=1777
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    mem_limit: 384m
+    cpus: 0.75
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      test:
+      - CMD
+      - python
+      - -c
+      - import urllib.request; urllib.request.urlopen("http://127.0.0.1:8000/health/ready",
+        timeout=2).read()
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 15s
+  db-tools:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/backend.Dockerfile
+      target: tools
+    image: resilience-alpha-tools:phase1
+    profiles:
+    - tools
+    environment:
+      DB_HOST: postgres
+      DB_NAME: ${DB_NAME:-resilience}
+      DB_USER: resilience_migrator
+      DB_PASSWORD_FILE: /run/secrets/migrator_password
+    networks:
+    - data
+    - app
+    secrets:
+    - postgres_password
+    - migrator_password
+    - auth_password
+    - bank_password
+    - ops_password
+    - cursor_key
+    - jwt_private.pem
+    - jwt_public.pem
+    - demo_alice_password
+    - demo_bob_password
+    - demo_operator_password
+    - demo_admin_password
+    - demo_validator_password
+    volumes:
+    - auth_runtime_secrets:/staged/auth
+    - payment_runtime_secrets:/staged/payment
+    depends_on:
+      postgres:
+        condition: service_healthy
+    mem_limit: 512m
+    cpus: 1
+    security_opt:
+    - no-new-privileges:true
+secrets:
+  postgres_password:
+    file: ./infrastructure/secrets/runtime/postgres_password
+  grafana_password:
+    file: ${GRAFANA_PASSWORD_FILE:-./infrastructure/secrets/runtime/grafana_password}
+  migrator_password:
+    file: ./infrastructure/secrets/runtime/migrator_password
+  auth_password:
+    file: ./infrastructure/secrets/runtime/auth_password
+  bank_password:
+    file: ./infrastructure/secrets/runtime/bank_password
+  ops_password:
+    file: ./infrastructure/secrets/runtime/ops_password
+  cursor_key:
+    file: ./infrastructure/secrets/runtime/cursor_key
+  jwt_private.pem:
+    file: ./infrastructure/secrets/runtime/jwt_private.pem
+  jwt_public.pem:
+    file: ./infrastructure/secrets/runtime/jwt_public.pem
+  demo_alice_password:
+    file: ./infrastructure/secrets/runtime/demo_alice_password
+  demo_bob_password:
+    file: ./infrastructure/secrets/runtime/demo_bob_password
+  demo_operator_password:
+    file: ./infrastructure/secrets/runtime/demo_operator_password
+  demo_admin_password:
+    file: ./infrastructure/secrets/runtime/demo_admin_password
+  demo_validator_password:
+    file: ./infrastructure/secrets/runtime/demo_validator_password
+networks:
+  edge: {}
+  app:
+    internal: true
+  data:
+    internal: true
+  observability:
+    internal: true
+  control:
+    internal: true
+  ai:
+    internal: true
+volumes:
+  postgres_data: {}
+  prometheus_data: {}
+  grafana_data: {}
+  loki_data: {}
+  alloy_data: {}
+  payment_logs: {}
+  auth_logs: {}
+  incident_logs: {}
+  ml_logs: {}
+  rag_logs: {}
+  waf_logs: {}
+  runner_logs: {}
+  auth_runtime_secrets: {}
+  payment_runtime_secrets: {}

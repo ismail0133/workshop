@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "event_id": "10000000-0000-4000-8000-000000000001",
+  "event_type": "ANOMALY_DETECTED",
+  "service": "payment-api",
+  "timestamp": "2026-10-19T10:30:00Z",
+  "window_start": "2026-10-19T10:29:45Z",
+  "window_end": "2026-10-19T10:30:00Z",
+  "model": {
+    "name": "isolation_forest",
+    "version": "if-v1",
+    "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "decision_score": -0.18,
+    "threshold": 0,
+    "is_anomaly": true
+  },
+  "features": {
+    "request_rate": 35,
+    "http_5xx_rate": 0.1,
+    "http_4xx_rate": 0,
+    "latency_p95_ms": 800,
+    "cpu_usage_percent": 95,
+    "memory_usage_percent": 40,
+    "active_requests": 6,
+    "payment_failure_rate": 0.2
+  }
+}

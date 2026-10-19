@@ -1,0 +1,134 @@
+{
+  "architecture": {
+    "command": [
+      "uname",
+      "-m"
+    ],
+    "path": "/usr/bin/uname",
+    "exit_code": 0,
+    "output": "arm64"
+  },
+  "macOS": {
+    "command": [
+      "sw_vers"
+    ],
+    "path": "/usr/bin/sw_vers",
+    "exit_code": 0,
+    "output": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83"
+  },
+  "chip": {
+    "command": [
+      "sysctl",
+      "-n",
+      "machdep.cpu.brand_string"
+    ],
+    "path": "/usr/sbin/sysctl",
+    "exit_code": 1,
+    "output": "sysctl: sysctl fmt -1 1024 1: Operation not permitted"
+  },
+  "memory": {
+    "command": [
+      "sysctl",
+      "-n",
+      "hw.memsize"
+    ],
+    "path": "/usr/sbin/sysctl",
+    "exit_code": 1,
+    "output": "sysctl: sysctl fmt -1 1024 1: Operation not permitted"
+  },
+  "python": {
+    "command": [
+      "python3",
+      "--version"
+    ],
+    "path": "/opt/homebrew/bin/python3",
+    "exit_code": 0,
+    "output": "Python 3.14.3"
+  },
+  "python312": {
+    "command": [
+      "python3.12",
+      "--version"
+    ],
+    "error": "[Errno 2] No such file or directory: 'python3.12'"
+  },
+  "node": {
+    "command": [
+      "node",
+      "--version"
+    ],
+    "path": "/opt/homebrew/bin/node",
+    "exit_code": 0,
+    "output": "v25.9.0"
+  },
+  "npm": {
+    "command": [
+      "npm",
+      "--version"
+    ],
+    "path": "/opt/homebrew/bin/npm",
+    "exit_code": 0,
+    "output": "11.12.1"
+  },
+  "docker": {
+    "command": [
+      "docker",
+      "--version"
+    ],
+    "path": "/usr/local/bin/docker",
+    "exit_code": 0,
+    "output": "Docker version 29.4.0, build 9d7ad9f"
+  },
+  "compose": {
+    "command": [
+      "docker",
+      "compose",
+      "version"
+    ],
+    "path": "/usr/local/bin/docker",
+    "exit_code": 0,
+    "output": "Docker Compose version v5.1.1"
+  },
+  "git": {
+    "command": [
+      "git",
+      "--version"
+    ],
+    "path": "/usr/bin/git",
+    "exit_code": 0,
+    "output": "git version 2.50.1 (Apple Git-155)"
+  },
+  "ollama": {
+    "command": [
+      "ollama",
+      "--version"
+    ],
+    "error": "[Errno 2] No such file or directory: 'ollama'"
+  },
+  "ansible": {
+    "command": [
+      "ansible",
+      "--version"
+    ],
+    "error": "[Errno 2] No such file or directory: 'ansible'"
+  },
+  "docker_desktop": {
+    "path": "/Applications/Docker.app",
+    "version": "4.69.0"
+  },
+  "hardware_verified_after_approval": {
+    "chip": "Apple M5",
+    "memory_bytes": 17179869184
+  },
+  "docker_engine": {
+    "reachable": false,
+    "error": "docker.sock absent; docker info exit 1"
+  },
+  "disk_observation": {
+    "command": "df -h .",
+    "volume_size": "926Gi",
+    "available": "743Gi",
+    "note": "Valeurs arrondies du volume de données, pas un test SSD"
+  },
+  "checked_on": "2026-10-19"
+}
