@@ -1,6 +1,6 @@
 # Plan d’implémentation — après validation de phase 0
 
-Aucune phase ci-dessous n’a commencé. Les numéros ordonnent les dépendances logiques ; plusieurs domaines avancent en parallèle. Estimation : cinq personnes × quatre journées de 7 h ≈140 heures-personne ; allocation ci-dessous 124 h, marge 16 h. Il ne s’agit pas d’un engagement de résultat. Les noms des membres et le groupe sont à renseigner.
+État courant : phases 1 et 2 implémentées ; résultats et limites dans PHASE_1_REPORT.md et PHASE_2_REPORT.md. Les phases suivantes restent planifiées. Les numéros ordonnent les dépendances logiques ; plusieurs domaines avancent en parallèle. Estimation : cinq personnes × quatre journées de 7 h ≈140 heures-personne ; allocation ci-dessous 124 h, marge 16 h. Il ne s’agit pas d’un engagement de résultat. Les noms des membres et le groupe sont à renseigner.
 
 ## Phases et critères
 

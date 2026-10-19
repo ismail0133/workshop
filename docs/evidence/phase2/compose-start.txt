@@ -1,0 +1,210 @@
+ Image resilience-alpha-payment:phase1 Building
+ Image resilience-alpha-auth:phase1 Building
+ Image resilience-alpha-frontend:phase2 Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.68kB done
+#1 DONE 0.0s
+
+#2 [auth-service internal] load build definition from backend.Dockerfile
+#2 transferring dockerfile: 1.30kB done
+#2 DONE 0.0s
+
+#3 [frontend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 737B done
+#3 DONE 0.0s
+
+#4 [payment-api internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#4 ...
+
+#5 [frontend internal] load metadata for docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#5 DONE 0.8s
+
+#4 [auth-service internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#4 DONE 0.8s
+
+#6 [auth-service internal] load .dockerignore
+#6 transferring context: 202B done
+#6 DONE 0.0s
+
+#7 [frontend internal] load metadata for docker.io/library/node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5
+#7 DONE 0.8s
+
+#8 [payment-api internal] load build context
+#8 transferring context: 1.03kB done
+#8 DONE 0.0s
+
+#9 [auth-service internal] load build context
+#9 transferring context: 1.02kB done
+#9 DONE 0.0s
+
+#10 [frontend internal] load .dockerignore
+#10 transferring context: 109B done
+#10 DONE 0.0s
+
+#11 [payment-api base 1/5] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#11 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 0.0s done
+#11 DONE 0.0s
+
+#12 [payment-api base 4/5] RUN pip install --no-cache-dir --requirement requirements.lock && pip check     && groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home app     && mkdir -p /var/log/resilience && chown app:app /var/log/resilience
+#12 CACHED
+
+#13 [payment-api base 5/5] COPY shared /app/shared
+#13 CACHED
+
+#14 [payment-api base 3/5] COPY requirements.lock /app/requirements.lock
+#14 CACHED
+
+#15 [auth-service base 3/5] COPY requirements.lock /app/requirements.lock
+#15 CACHED
+
+#16 [auth-service base 5/5] COPY shared /app/shared
+#16 CACHED
+
+#17 [auth-service base 4/5] RUN pip install --no-cache-dir --requirement requirements.lock && pip check     && groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home app     && mkdir -p /var/log/resilience && chown app:app /var/log/resilience
+#17 CACHED
+
+#18 [auth-service base 2/5] WORKDIR /app
+#18 CACHED
+
+#19 [payment-api payment 1/1] COPY services/payment-api/payment_app /app/payment_app
+#19 CACHED
+
+#20 [auth-service auth 1/1] COPY services/auth-service/auth_app /app/auth_app
+#20 CACHED
+
+#21 [frontend runtime 1/5] FROM docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#21 resolve docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 0.0s done
+#21 CACHED
+
+#22 [frontend build 1/6] FROM docker.io/library/node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5
+#22 resolve docker.io/library/node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5 0.0s done
+#22 DONE 0.0s
+
+#23 [frontend internal] load build context
+#23 transferring context: 38.69kB done
+#23 DONE 0.0s
+
+#24 [frontend build 3/6] COPY package.json package-lock.json ./
+#24 CACHED
+
+#25 [frontend build 2/6] WORKDIR /app
+#25 CACHED
+
+#26 [frontend build 4/6] RUN npm ci
+#26 CACHED
+
+#27 [frontend runtime 2/5] COPY nginx-main.conf /etc/nginx/nginx.conf
+#27 DONE 0.0s
+
+#28 [payment-api] exporting to image
+#28 exporting layers done
+#28 exporting manifest sha256:9c0ddc79995e926c3936bb56a6ce345070994a9157c68f45437257ff5d191ec2 done
+#28 exporting config sha256:1f2032cd8b8f80f4575a162dcd41cc58bc03eb2dbe5df32bb01fed747f27ae06 done
+#28 exporting attestation manifest sha256:a5da3af14327277194f05ebd475dd308bfa888c4cabe403b6fd524267106b0a9 0.0s done
+#28 exporting manifest list sha256:8d66f615c756671f931115d687bba9462888550bbc26b8dc8985f2ac75eba41e 0.0s done
+#28 naming to docker.io/library/resilience-alpha-payment:phase1 done
+#28 unpacking to docker.io/library/resilience-alpha-payment:phase1
+#28 unpacking to docker.io/library/resilience-alpha-payment:phase1 done
+#28 DONE 0.1s
+
+#29 [frontend build 5/6] COPY . .
+#29 DONE 0.0s
+
+#30 [frontend runtime 3/5] COPY nginx.conf /etc/nginx/frontend.template
+#30 DONE 0.0s
+
+#31 [auth-service] exporting to image
+#31 exporting layers done
+#31 exporting manifest sha256:65f0d8fccdc245ee7d60c616a8cb53148399fe2e23b8594c1a5d12385e981e12 done
+#31 exporting config sha256:fc58512cd866e944ed23c651074edec33d100eb61af1f1a88820ba11d3ffed02 done
+#31 exporting attestation manifest sha256:c5a348d91ac6a43ca290af41767c7e0e691d045ad3a223ad722ef6090d952169 0.0s done
+#31 exporting manifest list sha256:dd8cdc3addcb3f4b7b303a3ed06e28b6171bb162334c6a6cdeb3af4b472f3d51 0.0s done
+#31 naming to docker.io/library/resilience-alpha-auth:phase1 done
+#31 unpacking to docker.io/library/resilience-alpha-auth:phase1 done
+#31 DONE 0.1s
+
+#32 [frontend runtime 4/5] COPY entrypoint.sh /app-entrypoint.sh
+#32 DONE 0.0s
+
+#33 [payment-api] resolving provenance for metadata file
+#33 DONE 0.0s
+
+#34 [auth-service] resolving provenance for metadata file
+#34 DONE 0.0s
+
+#35 [frontend build 6/6] RUN npm run build
+#35 0.362
+#35 0.362 > resilience-alpha-frontend@0.2.0 build
+#35 0.362 > tsc -b && vite build
+#35 0.362
+#35 2.766 vite v7.3.7 building client environment for production...
+#35 2.806 transforming...
+#35 3.543 node_modules/zod/v4/core/util.js (400:0): A comment
+#35 3.543
+#35 3.543 "// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+#35 3.543
+#35 3.543 in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+#35 3.543 node_modules/zod/v4/core/regexes.js (74:0): A comment
+#35 3.543
+#35 3.543 "/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+#35 3.543  * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+#35 3.543  * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+#35 3.543
+#35 3.543 in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+#35 4.489 ✓ 2342 modules transformed.
+#35 4.657 rendering chunks...
+#35 4.671 computing gzip size...
+#35 4.680 dist/index.html                   0.62 kB │ gzip:   0.39 kB
+#35 4.680 dist/assets/index-C-cQeIkx.css   23.71 kB │ gzip:   6.67 kB
+#35 4.680 dist/assets/charts-EGy4JrVI.js  377.91 kB │ gzip: 111.12 kB
+#35 4.680 dist/assets/index-CBoOcSwT.js   456.20 kB │ gzip: 142.52 kB
+#35 4.680 ✓ built in 1.90s
+#35 DONE 4.8s
+
+#36 [frontend runtime 5/5] COPY --from=build /app/dist /usr/share/nginx/html
+#36 DONE 0.0s
+
+#37 [frontend] exporting to image
+#37 exporting layers 0.0s done
+#37 exporting manifest sha256:91e33e5c756a7439023203941723a3c173a7e1a0871815ef43b59bd57994e348 done
+#37 exporting config sha256:95e6cd299dc524010bc5b1c600cdc3391e928a5881bc972a34a92aa14a7685b8 done
+#37 exporting attestation manifest sha256:322a35398507730f98b756a597d11f90956d14e3dda6cdeb7f50b2e2eb61c47d done
+#37 exporting manifest list sha256:43b90c615e5ae7aab25ce03966ce37688ab2cd39fde142e7766759a25e58f1c8 done
+#37 naming to docker.io/library/resilience-alpha-frontend:phase2 done
+#37 unpacking to docker.io/library/resilience-alpha-frontend:phase2 0.0s done
+#37 DONE 0.1s
+
+#38 [frontend] resolving provenance for metadata file
+#38 DONE 0.0s
+ Image resilience-alpha-auth:phase1 Built
+ Image resilience-alpha-payment:phase1 Built
+ Image resilience-alpha-frontend:phase2 Built
+ Container resilience-alpha-postgres-1 Running
+ Container resilience-alpha-payment-api-1 Recreate
+ Container resilience-alpha-auth-service-1 Recreate
+ Container resilience-alpha-payment-api-1 Recreated
+ Container resilience-alpha-auth-service-1 Recreated
+ Container resilience-alpha-frontend-1 Recreate
+ Container resilience-alpha-frontend-1 Recreated
+ Container resilience-alpha-postgres-1 Waiting
+ Container resilience-alpha-postgres-1 Waiting
+ Container resilience-alpha-postgres-1 Healthy
+ Container resilience-alpha-postgres-1 Healthy
+ Container resilience-alpha-auth-service-1 Starting
+ Container resilience-alpha-payment-api-1 Starting
+ Container resilience-alpha-payment-api-1 Started
+ Container resilience-alpha-auth-service-1 Started
+ Container resilience-alpha-auth-service-1 Waiting
+ Container resilience-alpha-payment-api-1 Waiting
+ Container resilience-alpha-auth-service-1 Healthy
+ Container resilience-alpha-payment-api-1 Healthy
+ Container resilience-alpha-frontend-1 Starting
+ Container resilience-alpha-frontend-1 Started
+ Container resilience-alpha-auth-service-1 Waiting
+ Container resilience-alpha-payment-api-1 Waiting
+ Container resilience-alpha-postgres-1 Waiting
+ Container resilience-alpha-frontend-1 Waiting
+ Container resilience-alpha-postgres-1 Healthy
+ Container resilience-alpha-auth-service-1 Healthy
+ Container resilience-alpha-payment-api-1 Healthy
+ Container resilience-alpha-frontend-1 Healthy

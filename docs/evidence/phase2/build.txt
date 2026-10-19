@@ -1,0 +1,99 @@
+ Image resilience-alpha-payment:phase1 Building
+ Image resilience-alpha-frontend:phase2 Building
+ Image resilience-alpha-auth:phase1 Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.64kB done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 737B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 109B done
+#5 DONE 0.0s
+
+#6 [build 1/6] FROM docker.io/library/node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5
+#6 resolve docker.io/library/node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5 done
+#6 DONE 0.0s
+
+#7 [runtime 1/5] FROM docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#7 resolve docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 12.46kB done
+#8 DONE 0.0s
+
+#9 [build 2/6] WORKDIR /app
+#9 CACHED
+
+#10 [build 3/6] COPY package.json package-lock.json ./
+#10 CACHED
+
+#11 [build 4/6] RUN npm ci
+#11 CACHED
+
+#12 [build 5/6] COPY . .
+#12 DONE 0.0s
+
+#13 [build 6/6] RUN npm run build
+#13 0.155
+#13 0.155 > resilience-alpha-frontend@0.2.0 build
+#13 0.155 > tsc -b && vite build
+#13 0.155
+#13 1.969 vite v7.3.7 building client environment for production...
+#13 2.000 transforming...
+#13 2.711 node_modules/zod/v4/core/util.js (400:0): A comment
+#13 2.711
+#13 2.711 "// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+#13 2.711
+#13 2.711 in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+#13 2.711 node_modules/zod/v4/core/regexes.js (74:0): A comment
+#13 2.711
+#13 2.711 "/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+#13 2.711  * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+#13 2.711  * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+#13 2.711
+#13 2.711 in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+#13 3.347 ✓ 2342 modules transformed.
+#13 3.480 rendering chunks...
+#13 3.500 computing gzip size...
+#13 3.509 dist/index.html                   0.62 kB │ gzip:   0.39 kB
+#13 3.509 dist/assets/index-C-cQeIkx.css   23.71 kB │ gzip:   6.67 kB
+#13 3.509 dist/assets/charts-EGy4JrVI.js  377.91 kB │ gzip: 111.12 kB
+#13 3.509 dist/assets/index-CBoOcSwT.js   456.20 kB │ gzip: 142.52 kB
+#13 3.509 ✓ built in 1.53s
+#13 DONE 3.6s
+
+#14 [runtime 2/5] COPY nginx-main.conf /etc/nginx/nginx.conf
+#14 CACHED
+
+#15 [runtime 3/5] COPY nginx.conf /etc/nginx/frontend.template
+#15 CACHED
+
+#16 [runtime 4/5] COPY entrypoint.sh /app-entrypoint.sh
+#16 CACHED
+
+#17 [runtime 5/5] COPY --from=build /app/dist /usr/share/nginx/html
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:91e33e5c756a7439023203941723a3c173a7e1a0871815ef43b59bd57994e348 done
+#18 exporting config sha256:95e6cd299dc524010bc5b1c600cdc3391e928a5881bc972a34a92aa14a7685b8 done
+#18 exporting attestation manifest sha256:5fbb5216ba43400186a2c739e066b5112ef058cff0a277c54d84b11be3988b82 done
+#18 exporting manifest list sha256:73d88bb97322a8127ae4a1c5c139b34ee5eae88bb0c586d4f05015f26f6c175e done
+#18 naming to docker.io/library/resilience-alpha-frontend:phase2 done
+#18 unpacking to docker.io/library/resilience-alpha-frontend:phase2 done
+#18 DONE 0.0s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image resilience-alpha-frontend:phase2 Built

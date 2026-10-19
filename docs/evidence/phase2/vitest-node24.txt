@@ -1,0 +1,17 @@
+
+> resilience-alpha-frontend@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.12 /app
+
+ ✓ src/utils/money.test.ts (13 tests) 4ms
+ ✓ src/services/http.test.ts (5 tests) 8ms
+ ✓ src/features/payments/intent.test.ts (5 tests) 6ms
+ ✓ src/test/application.test.tsx (9 tests) 1374ms
+     ✓ performs confirmed payment with an idempotency header  302ms
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  18:17:29
+   Duration  2.21s (transform 405ms, setup 418ms, import 715ms, tests 1.39s, environment 951ms)

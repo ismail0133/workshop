@@ -1,6 +1,6 @@
 # Catalogue des services
 
-Cible à construire ; les endpoints ci-dessous sont des contrats, pas des services actuellement démarrés. RAM = plafond initial MiB, à mesurer ; CPU = quota initial en cœurs. Entrées/sorties structurées dans `docs/api/openapi.json` et schémas d’événements.
+Catalogue cible : frontend, auth-service, payment-api et postgres sont implémentés en phase 2. Les autres lignes restent des contrats futurs ; voir les rapports de phase pour la validation effective. RAM = plafond initial MiB, à mesurer ; CPU = quota initial en cœurs. Entrées/sorties structurées dans `docs/api/openapi.json` et schémas d’événements.
 
 | Service | Responsabilité / technologie | Entrées → sorties et dépendances | API et health | Données / sécurité | RAM / CPU |
 |---|---|---|---|---|---|

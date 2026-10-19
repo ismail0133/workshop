@@ -1,11 +1,6 @@
-# Phase 1 backend; future observability kept under foundation profile.
+# Phase 2 frontend/backend; future observability remains under foundation profile.
 name: resilience-alpha
 x-planned-services:
-  frontend:
-    port: 8080
-    networks:
-    - edge
-    phase: 2
   incident-service:
     port: 8002
     networks:
@@ -304,6 +299,32 @@ services:
     cpus: 1
     security_opt:
     - no-new-privileges:true
+  frontend:
+    build:
+      context: ./frontend
+    image: resilience-alpha-frontend:phase2
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      payment-api:
+        condition: service_healthy
+    networks:
+    - edge
+    - app
+    read_only: true
+    tmpfs:
+    - /tmp:size=16m,mode=1777
+    cap_drop:
+    - ALL
+    security_opt:
+    - no-new-privileges:true
+    mem_limit: 128m
+    cpus: 0.25
+    pids_limit: 64
+    restart: unless-stopped
+    environment:
+      AUTH_UPSTREAM: ${FRONTEND_AUTH_UPSTREAM:-http://auth-service:8001}
+      PAYMENT_UPSTREAM: ${FRONTEND_PAYMENT_UPSTREAM:-http://payment-api:8000}
 secrets:
   postgres_password:
     file: ./infrastructure/secrets/runtime/postgres_password

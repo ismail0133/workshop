@@ -29,3 +29,7 @@ artifacts/runtime/
 *.log
 *.swp
 *~
+# Frontend test artifacts (selected evidence is copied into docs)
+frontend/test-results/
+frontend/playwright-report/
+frontend/*.tsbuildinfo

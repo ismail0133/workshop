@@ -1,8 +1,69 @@
-# RESILIENCE-ALPHA — phase 1
+# RESILIENCE-ALPHA — phase 2
 
-Backend fictif FastAPI + PostgreSQL, issu de la conception de phase 0. Authentification Argon2id/JWT RS256, contrôle des rôles et propriétaires, transferts EUR atomiques, idempotence, concurrence, métriques et logs JSON. Frontend, ML, RAG, WAF et remédiation restent aux phases suivantes.
+Backend fictif FastAPI + PostgreSQL, issu de la conception de phase 0. Authentification Argon2id/JWT RS256, contrôle des rôles et propriétaires, transferts EUR atomiques, idempotence, concurrence, métriques et logs JSON. Le frontend React est connecté aux API. ML, RAG, WAF et remédiation restent aux phases suivantes.
 
 [Organisation du dépôt](docs/PROJECT_STRUCTURE.md) · [Rapport de phase 1](PHASE_1_REPORT.md)
+
+## Frontend React — phase 2
+
+Interface locale : **http://127.0.0.1:8088**. Le frontend inclut connexion, Overview, Accounts, Payments, Transactions, Infrastructure et les écrans explicitement non configurés de Security, AI Detection, Recovery et Assistant.
+
+Après l’initialisation PostgreSQL/secrets/migrations décrite ci-dessous :
+
+```sh
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --wait frontend
+docker compose -f docker-compose.yml -f docker-compose.dev.yml ps
+```
+
+Le frontend dépend des deux API et démarre leur chaîne de dépendances. Son proxy Nginx sert les assets et relaie les routes autorisées sur la même origine. Aucun CORS universel. Le port hôte est configurable via FRONTEND_PORT (8088 par défaut), avec écoute limitée à 127.0.0.1. L’image finale utilise Nginx non-root ; Node 24 ne sert qu’à la compilation.
+
+Connexion bancaire : alice@resilience.test ou bob@resilience.test, avec le mot de passe local du fichier infrastructure/secrets/runtime/demo_alice_password ou demo_bob_password. OPERATOR/ADMIN accèdent aux vues de supervision, sans accès bancaire global. Le compte validator@resilience.test est réservé aux comptes synthétiques et à la recette technique. Les secrets ne sont jamais inclus dans le frontend.
+
+Pour un virement de démonstration Alice → Bob, l’UUID de destination est `20000000-0000-4000-8000-000000000002`. Il s’agit d’un identifiant fictif du seed, pas d’un accès aux détails du compte de Bob. La recette phase 2 utilise V1/V2 afin de conserver les soldes historiques A/B à 800 €/700 €.
+
+### Développement local
+
+Avec **Node 24 LTS** et les API démarrées avec l’overlay dev :
+
+```sh
+cd frontend
+npm ci
+npm run dev
+```
+
+Vite sert http://127.0.0.1:5173 et relaie les API. AUTH_UPSTREAM et PAYMENT_UPSTREAM configurent les cibles du proxy Vite. Les fournir comme variables du shell ; le .env.example documente les valeurs. VITE_API_BASE_URL est vide par défaut (même origine), résolu à la compilation ; aucune variable VITE_ ne doit contenir un secret. En Docker, FRONTEND_AUTH_UPSTREAM/FRONTEND_PAYMENT_UPSTREAM configurent les cibles HTTP du proxy à l’exécution. Voir [architecture frontend](docs/frontend/FRONTEND_ARCHITECTURE.md).
+
+### Tests et build frontend
+
+```sh
+cd frontend
+npm run typecheck
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
+
+Les tests Vitest utilisent des réponses HTTP explicitement simulées. Playwright utilise le **vrai frontend Docker, les vraies API et PostgreSQL**, depuis l’hôte avec accès à Docker. E2E_BASE_URL est configurable ; la valeur par défaut est http://127.0.0.1:8088. Chaque exécution E2E crée un virement fictif distinct de 1,25 € entre les comptes synthétiques V1/V2, puis rejoue la même clé ; elle ne réinitialise pas les soldes. Les preuves sont écrites dans docs/evidence/phase2. Limite de login du backend : 5/minute/source ; attendre le renouvellement du quota si plusieurs recettes rapprochées le saturent.
+
+Pour tester avec Node 24 sans modifier Node système :
+
+```sh
+docker build --target build -t resilience-alpha-frontend-tools:phase2 frontend
+docker run --rm --network none resilience-alpha-frontend-tools:phase2 npm test
+```
+
+Ces deux commandes partent de la racine du dépôt. Le Node 25 présent sur ce Mac n’est pas la cible ; ses tests jsdom nécessitent `NODE_OPTIONS=--no-experimental-webstorage npm test`. Le build et les tests de référence ont été exécutés sous Node 24 dans Docker.
+
+### Session et idempotence
+
+Le JWT reste uniquement en mémoire. Recharger la page demande une reconnexion ; déconnexion, expiration et HTTP 401 effacent session et cache de données. Aucun faux cookie HttpOnly n’est ajouté. La protection XSS demeure nécessaire : un token en mémoire peut être lu par un script compromis. TLS/WAF sont prévus dans les phases suivantes ; ici, HTTP reste limité au laboratoire local.
+
+La clé et le corps d’une intention de paiement sont conservés dans sessionStorage, par utilisateur et par onglet, **sans JWT ni mot de passe**. Après une coupure réseau, l’interface propose de reprendre exactement l’opération. Les requêtes simultanées sont dédupliquées et aucun retry automatique de POST n’est activé. Une nouvelle intention obtient une nouvelle clé. Fermer l’onglet ou effacer son stockage perd cette reprise locale : vérifier l’historique avant de créer une autre intention. Les seuls statuts métier affichés sont SUCCESS et REJECTED.
+
+Les tableaux et KPI indiquent les données chargées ; les curseurs restent opaques et aucune statistique partielle n’est présentée comme exhaustive. Les modules futurs n’émettent aucune requête vers un backend inexistant et affichent NOT CONFIGURED.
+
+[Rapport phase 2](PHASE_2_REPORT.md) · [Architecture frontend](docs/frontend/FRONTEND_ARCHITECTURE.md) · [Design System](docs/frontend/DESIGN_SYSTEM.md)
 
 ## Prérequis
 

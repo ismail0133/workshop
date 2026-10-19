@@ -1,0 +1,5 @@
+NAME                              IMAGE                                                                                          COMMAND                  SERVICE        CREATED         STATUS                   PORTS
+resilience-alpha-auth-service-1   sha256:dd8cdc3addcb3f4b7b303a3ed06e28b6171bb162334c6a6cdeb3af4b472f3d51                        "uvicorn auth_app.ma…"   auth-service   4 minutes ago   Up 4 minutes (healthy)   127.0.0.1:8001->8001/tcp
+resilience-alpha-frontend-1       resilience-alpha-frontend:phase2                                                               "/bin/sh /app-entryp…"   frontend       7 seconds ago   Up 5 seconds (healthy)   127.0.0.1:8088->8080/tcp
+resilience-alpha-payment-api-1    sha256:8d66f615c756671f931115d687bba9462888550bbc26b8dc8985f2ac75eba41e                        "uvicorn payment_app…"   payment-api    4 minutes ago   Up 4 minutes (healthy)   127.0.0.1:8000->8000/tcp
+resilience-alpha-postgres-1       postgres:17-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826   "docker-entrypoint.s…"   postgres       8 hours ago     Up 8 hours (healthy)     5432/tcp

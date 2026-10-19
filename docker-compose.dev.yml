@@ -1,11 +1,18 @@
-# Local development only. PostgreSQL remains on internal networks.
+# Local development only. PostgreSQL remains internal.
 services:
   auth-service:
-    ports: ["127.0.0.1:8001:8001"]
-    networks: [dev_access]
+    ports:
+    - 127.0.0.1:8001:8001
+    networks:
+    - dev_access
   payment-api:
-    ports: ["127.0.0.1:8000:8000"]
-    networks: [dev_access]
+    ports:
+    - 127.0.0.1:8000:8000
+    networks:
+    - dev_access
+  frontend:
+    ports:
+    - 127.0.0.1:${FRONTEND_PORT:-8088}:8080
 networks:
   dev_access:
     driver: bridge

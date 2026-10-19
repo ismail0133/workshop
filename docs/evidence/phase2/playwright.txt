@@ -1,0 +1,13 @@
+
+> resilience-alpha-frontend@0.2.0 test:e2e
+> playwright test
+
+
+Running 2 tests using 1 worker
+
+(node:24119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/platform.spec.ts:44:1 › real React payment: lost response, same-key retry, history and PostgreSQL consistency (2.7s)
+  ✓  2 e2e/platform.spec.ts:220:1 › real session reload requires login (510ms)
+
+  2 passed (3.7s)

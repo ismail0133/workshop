@@ -1,0 +1,19 @@
+{
+  "before_minor": {
+    "20000000-0000-4000-8000-000000000003": 9875,
+    "20000000-0000-4000-8000-000000000004": 10125
+  },
+  "after_minor": {
+    "20000000-0000-4000-8000-000000000003": 9750,
+    "20000000-0000-4000-8000-000000000004": 10250
+  },
+  "amount_minor": 125,
+  "transaction_id": "2601e24c-5a83-4e97-a6cf-d34a28df3f82",
+  "idempotency_key": "4dee7bb4-d1d1-44ef-ad2c-db10d6687bb8",
+  "first_http": 201,
+  "replay_http": 200,
+  "post_requests": 2,
+  "database_rows": 1,
+  "historical_accounts_unchanged": true,
+  "browser_errors": []
+}

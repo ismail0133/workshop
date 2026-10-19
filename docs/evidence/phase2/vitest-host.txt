@@ -1,0 +1,12 @@
+
+> resilience-alpha-frontend@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/ismailiraqi/g8 work/resilience-alpha/frontend
+
+
+ Test Files  4 passed (4)
+      Tests  32 passed (32)
+   Start at  20:17:14
+   Duration  1.90s (transform 208ms, setup 415ms, import 569ms, tests 1.01s, environment 1.41s)

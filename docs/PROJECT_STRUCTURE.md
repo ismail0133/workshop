@@ -13,7 +13,7 @@ Le dépôt contient un seul projet, RESILIENCE-ALPHA. Les commandes Docker et Py
 ├── shared/resilience_common/ # Configuration, sécurité, modèles et DTO communs
 ├── database/                 # Bootstrap des rôles, migrations Alembic, seed fictif
 ├── infrastructure/           # Docker, observabilité, secrets et configurations futures
-├── frontend/                 # Préparation uniquement, phase future
+├── frontend/                 # React/TypeScript, Design System, proxy et tests
 ├── scripts/                  # Initialisation et recette reproductibles
 ├── tests/                    # unit, integration et e2e
 ├── security/                 # Scénarios et conception de sécurité
@@ -32,7 +32,7 @@ Le dépôt contient un seul projet, RESILIENCE-ALPHA. Les commandes Docker et Py
 - Les composants partagés restent dans shared ; les migrations SQL versionnées sont la référence des contraintes PostgreSQL.
 - Les preuves sélectionnées sont dans docs/evidence/phase1. Les rapports de phase 0 décrivent l’état historique, pas la couverture actuelle.
 - Les secrets générés, caches, environnements virtuels, données de base et artefacts runtime ne sont pas versionnés. Chaque membre génère ses propres secrets selon le README.
-- Le frontend, ML, RAG et la remédiation ne sont pas annoncés opérationnels tant que leurs phases ne sont pas réalisées.
+- Le frontend est opérationnel en phase 2. ML, RAG et la remédiation restent explicitement non configurés.
 
 ## Navigation
 
