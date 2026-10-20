@@ -1,0 +1,79 @@
+# Edge overlay: puts the Nginx WAF in front of the frontend, auth-service and payment-api.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.edge.yml up -d --build --wait waf
+#
+# DEMO: use these two files only. docker-compose.dev.yml additionally publishes the APIs on
+# 127.0.0.1:8000/8001 (and gives them a bridge with egress): loopback only, so the Attacker PC
+# cannot reach them, but they bypass the WAF for local debugging.
+#
+# Variables (same names as .env.example):
+#   WAF_BIND_IP      127.0.0.1 (default, local tests)  |  192.168.137.1 (hotspot, Attacker PC can connect)
+#   WAF_HTTPS_PORT   8443
+#   WAF_HTTP_PORT    8090 (plain HTTP, ALWAYS bound to 127.0.0.1 - local tests only)
+
+services:
+  waf:
+    build:
+      context: ./infrastructure/waf
+    image: resilience-alpha-waf:phase6
+    depends_on: {}          # the edge must stay up while a backend is being recovered
+    restart: unless-stopped
+    networks: [edge, app, observability]
+    ports:
+      - "${WAF_BIND_IP:-127.0.0.1}:${WAF_HTTPS_PORT:-8443}:8443"
+      - "127.0.0.1:${WAF_HTTP_PORT:-8090}:8080"
+    volumes:
+      # Remediation writes blocklist.txt here; the WAF only reads it.
+      - ./infrastructure/waf/blocklist:/blocklist:ro
+      # waf_logs is declared in docker-compose.yml and already tailed by Alloy (service="waf").
+      - waf_logs:/var/log/resilience/waf
+      # Optional real certificate:  - ./infrastructure/waf/certs:/certs:ro
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 128
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8081/edge/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # Prometheus (infrastructure/prometheus/prometheus.yml) scrapes job "waf" at waf:9113.
+  # This sidecar shares the WAF network namespace, so it is reachable as waf:9113 and
+  # reads the internal stub_status of the edge (127.0.0.1:8081, never published).
+  waf-exporter:
+    image: nginx/nginx-prometheus-exporter:1.3.0
+    command:
+      - --nginx.scrape-uri=http://127.0.0.1:8081/nginx_status
+      - --web.listen-address=:9113
+    network_mode: "service:waf"
+    depends_on:
+      waf:
+        condition: service_healthy
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 64m
+    cpus: 0.1
+
+  grafana:
+    volumes:
+      # Dashboards as code: loaded by infrastructure/grafana/provisioning/dashboards/dashboards.yml
+      - ./infrastructure/grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+  auth-service:
+    environment:
+      # The in-memory login limiter keys on the proxy's IP (every client looks
+      # like the WAF), so 5/min would be shared by ALL users. The real per-source
+      # limit is enforced by Nginx (edge_login, 10 req/min/IP). Remove this
+      # override once the backend trusts X-Forwarded-For from the WAF only.
+      LOGIN_RATE_LIMIT: "${AUTH_LOGIN_RATE_LIMIT:-120}"

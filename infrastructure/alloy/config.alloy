@@ -1,4 +1,7 @@
 // Phase 0 : producteurs à implémenter, aucun log synthétique.
+// Modif edge: loki.process lit le champ "ts" du log JSON et l'utilise comme date de
+// l'évènement (sinon Loki date la ligne à l'heure de lecture par Alloy).
+// Si "ts" est absent ou illisible, la ligne garde l'heure de lecture (pas de perte).
 local.file_match "services" {
   path_targets = [
     {__path__ = "/var/log/resilience/payment/*.jsonl", service = "payment-api", env = "lab"},
@@ -12,6 +15,18 @@ local.file_match "services" {
 }
 loki.source.file "services" {
   targets = local.file_match.services.targets
+  forward_to = [loki.process.event_time.receiver]
+}
+loki.process "event_time" {
+  stage.json {
+    expressions = { ts = "ts" }
+  }
+  stage.timestamp {
+    source             = "ts"
+    format             = "RFC3339Nano"
+    fallback_formats   = ["RFC3339"]
+    action_on_failure  = "fudge"
+  }
   forward_to = [loki.write.local.receiver]
 }
 loki.write "local" {

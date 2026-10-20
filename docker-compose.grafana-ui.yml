@@ -1,0 +1,6 @@
+# Lab only: Grafana UI reachable from this PC (loopback), not from the hotspot.
+services:
+  grafana:
+    networks: [observability, edge]
+    ports:
+      - "127.0.0.1:3000:3000"
