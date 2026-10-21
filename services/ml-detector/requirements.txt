@@ -1,0 +1,11 @@
+# Versions exécutées par les tests (Python 3.13, environnement de rédaction).
+# Le build Docker sous Python 3.12 n'a PAS été exécuté : relancer `pip check` puis les tests dans l'image.
+scikit-learn==1.9.1
+numpy==2.5.3
+pandas==3.0.5
+joblib==1.6.0
+httpx==0.28.1
+prometheus-client==0.26.0
+fastapi==0.156.6
+uvicorn==0.54.0
+pydantic==2.13.5

@@ -33,3 +33,8 @@ artifacts/runtime/
 frontend/test-results/
 frontend/playwright-report/
 frontend/*.tsbuildinfo
+
+# Détecteur ML : artefacts et journaux locaux (jamais dans le dépôt)
+ml_model/
+ml_synth/
+access*.jsonl

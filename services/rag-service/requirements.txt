@@ -1,0 +1,15 @@
+# Versions exécutées par les tests (Python 3.13, environnement de rédaction).
+# Le build Docker sous Python 3.12 n'a PAS été exécuté : relancer `pip check` puis les tests dans l'image.
+fastapi==0.156.6
+uvicorn==0.54.0
+pydantic==2.13.5
+httpx==0.28.1
+PyJWT==2.15.0
+cryptography==50.0.1
+prometheus-client==0.26.0
+numpy==2.5.3
+faiss-cpu==1.15.1
+langchain-core==1.6.12
+langchain-ollama==1.1.0
+langchain-text-splitters==1.1.3
+ollama==0.6.3

@@ -1,3 +1,8 @@
 # rag-service
 
-Responsabilités, API, sécurité et ressources : `docs/architecture/SERVICE_CATALOG.md`. Contrats : `docs/api/openapi.json`. Phase 0 : aucun code métier. `requirements.in` est une proposition non verrouillée, pas une preuve de compatibilité. Résoudre et tester sous Python 3.12 dans la phase prévue avant génération du lockfile.
+Assistant documentaire local (port 8004) : LangChain, Ollama, index FAISS natif, réponses citées, abstention sous seuil. Accès : rôle OPERATOR (`ASSISTANT_ROLES`).
+
+- Conception : `docs/rag/RAG_DESIGN.md`. Limites : `docs/ml/LIMITES_IA.md`.
+- Tests : `PYTHONPATH=. python3 -m pytest tests -q --confcutdir=. -p no:cacheprovider` (48 tests, faux embeddings et faux modèle, sans Ollama).
+- Indexation : `python -m rag_app.ingest`. Recette : `python -m rag_app.evaluate --corpus <repo> [--offline] [--generate]` ; la version avec Ollama réel fixe `RAG_MIN_SCORE`.
+- Image Docker : écrite, **non construite**.

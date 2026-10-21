@@ -1,5 +1,7 @@
 # Détection ML — Isolation Forest
 
+> **Mise à jour du 21 octobre 2026.** Le détecteur est implémenté dans `services/ml-detector/` (tests unitaires : voir `docs/ml/ML_REPORT.md`). Ce document reste la conception ; le rapport donne l'état d'implémentation, les résultats sur **données synthétiques de test** et ce qui reste à mesurer sur le PC Hôte. Écart de conception : une fenêtre sans trafic ou sans tentative de paiement est déclarée invalide (`NO_TRAFFIC`, `NO_PAYMENT_ATTEMPT`) plutôt qu'estimée.
+
 EPSI p.5 impose un véritable traitement ML sur données de l’environnement. Isolation Forest est notre choix, pas un algorithme imposé par EPSI. Aucun modèle entraîné ni résultat de performance n’existe encore.
 
 ## Données et définition des caractéristiques

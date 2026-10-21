@@ -1,0 +1,159 @@
+# Overlay IA : ml-detector, rag-service, ollama (+ outils d'indexation, d'entraînement, de téléchargement).
+#
+#   docker compose -f docker-compose.yml -f docker-compose.edge.yml -f docker-compose.ai.yml \
+#       --profile foundation up -d --wait ml-detector rag-service
+#
+# Ordre : (1) secrets IA  (2) modèles Ollama  (3) index RAG  (4) jeu de données et modèle ML  (5) démarrage.
+# Voir README « Pilier IA ». Rien ici n'a été démarré dans l'environnement de rédaction (pas de démon Docker) :
+# NOT TESTED jusqu'à la recette sur le PC Hôte.
+services:
+  ml-detector:
+    build:
+      context: .
+      dockerfile: services/ml-detector/Dockerfile
+    image: resilience-alpha-ml:ai1
+    environment:
+      PROMETHEUS_URL: http://prometheus:9090
+      # Vide = mode « dry-run » : les anomalies sont journalisées mais pas envoyées.
+      INCIDENT_URL: ${INCIDENT_URL:-}
+      MODEL_DIR: /models/current
+      # Empreinte épinglée : le manifeste ne peut pas se cautionner lui-même.
+      MODEL_SHA256: ${ML_MODEL_SHA256:-}
+      ANOMALY_TOKEN_FILE: /run/secrets/ml_anomaly_token
+      STATE_DIR: /var/lib/ml
+      LOG_DIR: /var/log/resilience
+    secrets:
+      - ml_anomaly_token
+    volumes:
+      - ml_models:/models:ro
+      - ml_state:/var/lib/ml
+      - ml_logs:/var/log/resilience
+    networks: [observability, control]
+    read_only: true
+    tmpfs: ["/tmp:size=16m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 0.5
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      # Prêt = modèle vérifié chargé ET fenêtres Prometheus fraîches.
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8003/health/ready', timeout=2).read()"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 45s
+
+  rag-service:
+    build:
+      context: .
+      dockerfile: services/rag-service/Dockerfile
+    image: resilience-alpha-rag:ai1
+    environment:
+      OLLAMA_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
+      CHAT_MODEL: ${OLLAMA_CHAT_MODEL:-qwen2.5:1.5b}
+      EMBED_MODEL: ${OLLAMA_EMBED_MODEL:-nomic-embed-text:v1.5}
+      CORPUS_ROOT: /corpus
+      INDEX_DIR: /index
+      JWT_PUBLIC_KEY_FILE: /run/secrets/jwt_public.pem
+      RAG_MIN_SCORE: ${RAG_MIN_SCORE:-0.45}
+      LOG_DIR: /var/log/resilience
+    secrets:
+      - jwt_public.pem
+    volumes:
+      - rag_index:/index:ro
+      - rag_logs:/var/log/resilience
+    networks: [app, ai, observability]
+    read_only: true
+    tmpfs: ["/tmp:size=16m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 0.5
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8004/health/ready', timeout=2).read()"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 120s
+
+  ollama:
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}   # À FIGER par digest au gel du code (images figées, SECURITY_ARCHITECTURE)
+    environment:
+      OLLAMA_NO_CLOUD: "1"
+      OLLAMA_KEEP_ALIVE: 10m
+      OLLAMA_MAX_LOADED_MODELS: "1"
+      OLLAMA_NUM_PARALLEL: "1"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks: [ai]
+    mem_limit: 3072m
+    cpus: 2
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+
+  # --- Outils ponctuels (profil « tools ») -------------------------------------------------
+  # Télécharge les deux modèles. Réseau `egress` (non interne) : seul moment où Ollama sort sur Internet.
+  ollama-pull:
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}
+    profiles: [tools]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - ollama serve & sleep 5 && ollama pull ${OLLAMA_CHAT_MODEL:-qwen2.5:1.5b} && ollama pull ${OLLAMA_EMBED_MODEL:-nomic-embed-text:v1.5}
+    volumes:
+      - ollama_models:/root/.ollama
+    networks: [egress]
+
+  # Construit l'index documentaire HORS requête (RAG_DESIGN) : à relancer après toute modification des docs.
+  rag-indexer:
+    image: resilience-alpha-rag:ai1
+    profiles: [tools]
+    command: ["python", "-m", "rag_app.ingest"]
+    environment:
+      OLLAMA_URL: http://ollama:11434
+      EMBED_MODEL: ${OLLAMA_EMBED_MODEL:-nomic-embed-text:v1.5}
+      CORPUS_ROOT: /corpus
+      INDEX_DIR: /index
+    user: "0:0"   # le volume d'index est créé root ; l'indexeur est éphémère et sans secret
+    volumes:
+      - ./docs:/corpus/docs:ro
+      - ./security:/corpus/security:ro
+      - rag_index:/index
+    networks: [ai]
+
+  # Collecte, étiquetage, entraînement et évaluation du modèle : `docker compose run --rm ml-tools python -m ml_app.cli ...`
+  ml-tools:
+    image: resilience-alpha-ml:ai1
+    profiles: [tools]
+    user: "0:0"
+    environment:
+      PROMETHEUS_URL: http://prometheus:9090
+    volumes:
+      - ml_models:/models
+      - ml_data:/data
+    working_dir: /data
+    networks: [observability]
+
+secrets:
+  ml_anomaly_token:
+    file: ./infrastructure/secrets/runtime/ml_anomaly_token
+
+networks:
+  egress:
+    driver: bridge   # non interne : réservé à ollama-pull
+
+volumes:
+  ml_models: {}
+  ml_state: {}
+  ml_data: {}
+  rag_index: {}
+  ollama_models: {}

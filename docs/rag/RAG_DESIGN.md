@@ -1,5 +1,7 @@
 # Assistant documentaire local
 
+> **Mise à jour du 21 octobre 2026.** Le service est implémenté dans `services/rag-service/` : LangChain, index FAISS natif (sans pickle), abstention sous seuil, citations vérifiées, rôle OPERATOR, un seul traitement à la fois. Les tests (48) tournent **sans Ollama** (faux embeddings et faux modèle). La recette sur Ollama réel (`python -m rag_app.evaluate`) reste à exécuter : elle fixera `RAG_MIN_SCORE` (0,45 par défaut, non calibré) et mesurera la qualité en français et la résistance à l'injection de prompt. Voir `docs/ml/LIMITES_IA.md`.
+
 EPSI p.5 : Ollama + LangChain + RAG obligatoires, modèle local ≤8 milliards de paramètres. Choix : `qwen2.5:1.5b` (1.54B, Q4_K_M, fichier annoncé 986 MB), contexte volontairement limité à 2048 tokens, sortie max 384, température 0.1. Source : [fiche officielle Ollama](https://ollama.com/library/qwen2.5:1.5b). Budget de fonctionnement 3 GiB à mesurer, distinct de la taille du fichier.
 
 Embeddings : `nomic-embed-text:v1.5`, annoncé 274 MB, via `/api/embed`. Source : [Ollama](https://ollama.com/library/nomic-embed-text). Ce modèle doit être évalué sur notre documentation française ; sa seule disponibilité ne garantit pas la qualité de recherche. Cible : au moins 8 bonnes références sur 10 questions de recette. Si insuffisant, sélectionner un embedding multilingue compatible et reconstruire entièrement l’index avant le test final ; pas de mélange de dimensions/modèles.

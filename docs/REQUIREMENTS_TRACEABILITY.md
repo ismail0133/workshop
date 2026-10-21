@@ -28,11 +28,11 @@ Source : sujet officiel de 12 pages, registre `source/SOURCE_REGISTER.md`. Chaqu
 | EPSI-022 | Loki centralise journaux exploitables par analyse | 4 | INFRA | Obligatoire | Loki/Alloy/SOC | LogQL et request_id joints | OBS-03 | Conçu — à prouver |
 | EPSI-023 | Elastic Stack non attendu compte tenu de la mémoire | 4 | INFRA | Recommandation | Architecture | Aucun Elastic dans cible | DOC-01 | Pris en compte |
 | EPSI-024 | Dépôt explique installation et relance hors machine auteur | 4 | INFRA | Obligatoire | README/plan déploiement | Recette depuis environnement propre | DEP-02 | Conçu — à prouver |
-| EPSI-025 | Détecteur véritable ML sur métriques/logs réels, pas if/else seul | 5 | IA | Obligatoire | ml-detector | Artefact entraîné + features et scores | ML-01 | Conçu — à prouver |
-| EPSI-026 | Détecteur raccordé supervision et chaîne de remédiation | 5 | IA | Obligatoire | ML/incident | Événement réel accepté | ML-02 | Conçu — à prouver |
-| EPSI-027 | Dossier documente données, préparation, modèle, résultats et limites | 5 | IA | Obligatoire | ML_DESIGN/essais | Splits séparés et métriques test | ML-03 | Conçu — à prouver |
-| EPSI-028 | Assistant local Ollama + LangChain + RAG sur documents équipe | 5 | IA | Obligatoire | rag-service/Ollama | Réponses avec références | RAG-01 | Conçu — à prouver |
-| EPSI-029 | LLM local ne dépasse pas 8 milliards de paramètres | 5 | IA | Obligatoire | Ollama | Manifeste modèle 1.54B | RAG-02 | Conçu — à prouver |
+| EPSI-025 | Détecteur véritable ML sur métriques/logs réels, pas if/else seul | 5 | IA | Obligatoire | ml-detector | Artefact entraîné + features et scores | ML-01 | Implémenté ; premiers résultats réels (journal WAF, 1 session) non probants — `docs/ml/ML_REPORT.md` §7 |
+| EPSI-026 | Détecteur raccordé supervision et chaîne de remédiation | 5 | IA | Obligatoire | ML/incident | Événement réel accepté | ML-02 | Implémenté : écriture de `ua:Token` dans `blocklist.txt` testée et exécutée sur journal réel (simulation par défaut) ; consommateur Incident absent |
+| EPSI-027 | Dossier documente données, préparation, modèle, résultats et limites | 5 | IA | Obligatoire | ML_DESIGN/essais | Splits séparés et métriques test | ML-03 | Rapport rédigé (`docs/ml/ML_REPORT.md`) — métriques réelles à produire |
+| EPSI-028 | Assistant local Ollama + LangChain + RAG sur documents équipe | 5 | IA | Obligatoire | rag-service/Ollama | Réponses avec références | RAG-01 | Implémenté, testé hors Ollama — recette réelle à faire |
+| EPSI-029 | LLM local ne dépasse pas 8 milliards de paramètres | 5 | IA | Obligatoire | Ollama | Manifeste modèle 1.54B | RAG-02 | Modèle 1.54B configuré — manifeste à relever après pull |
 | EPSI-030 | Assistant séparé de l’automate et sans privilèges incontrôlés | 5 | IA | Obligatoire | RAG/RBAC | Montages et tests injection | SEC-02 | Conçu — à prouver |
 | EPSI-031 | Au moins un scénario externe produit effet observable réel | 5 | CYBER | Obligatoire | SC-01 | Dégradation mesurée | SC-01 | Conçu — à prouver |
 | EPSI-032 | Durcissement composants et accès | 5 | CYBER | Obligatoire | Tous | Revue montages/UID/RBAC | SEC-03 | Conçu — à prouver |

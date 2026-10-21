@@ -139,6 +139,19 @@ Arrêt sans perte : `docker compose -f docker-compose.yml -f docker-compose.dev.
 
 Métriques Payment /metrics, santé /health/live et /health/ready ; Auth /health et /metrics. Logs expurgés de passwords/JWT, request_id généré par service tant que WAF n’existe pas. Les configurations Prometheus/Grafana/Loki/Alloy préparées sont conservées sous profil foundation ; leur intégration complète n’est pas annoncée en phase1.
 
+## Pilier IA (phase 3)
+
+Services : `services/ml-detector` (Isolation Forest) et `services/rag-service` (assistant Ollama + LangChain + FAISS), via `docker-compose.ai.yml`. Tests sans Ollama ni Docker : `make test-ai`.
+
+Ordre de mise en route sur le PC Hôte :
+1. `python scripts/prepare_ai_secrets.py` (secret `ml_anomaly_token`).
+2. Télécharger les modèles : profil `ollama-pull` (seul service avec accès réseau sortant).
+3. Indexer le corpus : profil `rag-indexer`.
+4. Détecteur par User-Agent sur les journaux du WAF : `services/ml-detector/README.md` (section WAF) ; résultats réels et limites : `docs/ml/ML_REPORT.md` §7. Détecteur sur métriques Prometheus : `docs/ml/ML_REPORT.md` §5.
+5. Démarrer la pile principale puis `docker-compose.ai.yml`.
+
+État et limites : `PHASE_IA_REPORT.md`, `docs/ml/LIMITES_IA.md`.
+
 ## Rapports et limites
 
 [Rapport phase1](PHASE_1_REPORT.md) · [Rapport historique phase0](PHASE_0_REPORT.md) · [Traçabilité EPSI](docs/REQUIREMENTS_TRACEABILITY.md). Le rapport de phase1 distingue IMPLEMENTED/TESTED/NOT TESTED/BLOCKED et donne les résultats réellement obtenus. Les tests Windows, la pile de résilience et le frontend sont hors phase1. Les dépendances sont verrouillées dans requirements.lock et les images de base par index digest multiarch.
