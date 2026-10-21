@@ -1,0 +1,3 @@
+# Edge blocklist - written by the Remediation Orchestrator (write to a temp file, then mv).
+# One entry per line:   1.2.3.4   |   10.0.0.0/24   |   2001:db8::/32   |   ua:sometoken
+# Lines starting with # are ignored. Applied by the WAF within ~1-2 s after validation (nginx -t).

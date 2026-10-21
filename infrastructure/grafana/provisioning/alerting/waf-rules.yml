@@ -1,0 +1,48 @@
+apiVersion: 1
+# Alert rules as code (loaded at Grafana start, like the datasources and the dashboard).
+# No contact point on purpose: the alert is visible in Grafana (Alerting > Alert rules)
+# and is the hook for the detector / orchestrator later.
+groups:
+  - orgId: 1
+    name: resilience-edge
+    folder: RESILIENCE-ALPHA
+    interval: 10s
+    rules:
+      - uid: waf-refused-flood
+        title: WAF - refused requests spike (403/429)
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: { from: 60, to: 0 }
+            datasourceUid: loki
+            model:
+              refId: A
+              datasource: { type: loki, uid: loki }
+              queryType: instant
+              expr: 'sum(count_over_time({service="waf"} | json | status=~"403|429" [30s]))'
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              refId: B
+              datasource: { type: __expr__, uid: __expr__ }
+              type: reduce
+              expression: A
+              reducer: last
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              datasource: { type: __expr__, uid: __expr__ }
+              type: threshold
+              expression: B
+              conditions:
+                - evaluator: { type: gt, params: [20] }
+        noDataState: OK
+        execErrState: Error
+        for: 10s
+        labels:
+          severity: high
+          component: waf
+        annotations:
+          summary: "More than 20 requests refused by the WAF (403 blocked or 429 rate-limited) in 30 s"
+          description: "Edge is refusing a burst of requests: flood in progress or blocked source still hammering. See dashboard Security Events (WAF / edge)."

@@ -1,0 +1,4 @@
+# Sources that must NEVER be blocked (the allowlist always wins over the blocklist).
+# 127.0.0.0/8 and ::1 are always allowlisted by the generator.
+# Add here: the Recovery Validator / dashboard host, the presenter's PC, the gateway if the
+# attacker's real IP is not visible (see README "Source IP").
