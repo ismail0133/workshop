@@ -41,11 +41,11 @@ Source : sujet officiel de 12 pages, registre `source/SOURCE_REGISTER.md`. Chaqu
 | EPSI-035 | Secrets HashiCorp Vault ou SOPS | 5 | CYBER | Obligatoire | SOPS/age | Fichier chiffré et archive sans secrets | SEC-06 | Conçu — à prouver |
 | EPSI-036 | Privilèges maîtrisés, remédiation sans administration ouverte | 5 | CYBER | Obligatoire | Runner/contrôleur WAF | Catalogue fermé et refus commandes | SEC-07 | Conçu — à prouver |
 | EPSI-037 | Offensif limité au SI fictif et machines autorisées ; campus/groupes/tiers/Internet exclus | 5,11 | CYBER | Obligatoire | SC-01/réseau | Allowlist exacte + arrêt urgence | SEC-08 | Conçu — à prouver |
-| EPSI-038 | Services critiques, risques et coût métier d’un arrêt expliqués | 5 | GOUV | Obligatoire | EBIOS/PCA | Scénarios et hypothèses impact | GOV-01 | Conçu — à prouver |
-| EPSI-039 | Analyse structurée basée sur EBIOS RM | 5 | GOUV | Obligatoire | Gouvernance | Cinq ateliers adaptés, décisions | GOV-02 | Conçu — à prouver |
-| EPSI-040 | Objectifs continuité/reprise cohérents ; PCA/PRA adapté | 5 | GOUV | Obligatoire | PCA/PRA | RTO/RPO et responsabilités/scénarios/risques résiduels | GOV-03 | Conçu — à prouver |
-| EPSI-041 | Analyser NIS2/DORA, pertinence et limites prototype | 5 | GOUV | Obligatoire | Conformité | Matrice liée à architecture et essais | GOV-04 | Conçu — à prouver |
-| EPSI-042 | Arbitrages et recommandations direction fondés sur éléments vérifiables | 5 | GOUV | Obligatoire | Architecture/risques | ADR + résultats + limites | GOV-05 | Conçu — à prouver |
+| EPSI-038 | Services critiques, risques et coût métier d’un arrêt expliqués | 5 | GOUV | Obligatoire | EBIOS/PCA | Scénarios et hypothèses impact | GOV-01 | Documenté (PCA/PRA, EBIOS) — hypothèses à valider |
+| EPSI-039 | Analyse structurée basée sur EBIOS RM | 5 | GOUV | Obligatoire | Gouvernance | Cinq ateliers adaptés, décisions | GOV-02 | Documenté (`docs/ebios/EBIOS_RM.md`) — validation coach à tracer |
+| EPSI-040 | Objectifs continuité/reprise cohérents ; PCA/PRA adapté | 5 | GOUV | Obligatoire | PCA/PRA | RTO/RPO et responsabilités/scénarios/risques résiduels | GOV-03 | Documenté ; PRA répété en local (PG16) — RTO réel non mesuré |
+| EPSI-041 | Analyser NIS2/DORA, pertinence et limites prototype | 5 | GOUV | Obligatoire | Conformité | Matrice liée à architecture et essais | GOV-04 | Documenté (`docs/compliance/NIS2_DORA.md`) |
+| EPSI-042 | Arbitrages et recommandations direction fondés sur éléments vérifiables | 5 | GOUV | Obligatoire | Architecture/risques | ADR + résultats + limites | GOV-05 | Documenté (`docs/governance/RECOMMANDATIONS_DIRECTION.md`) |
 | EPSI-043 | PC Hôte distinct de PC Attaquant | 6 | INFRA | Obligatoire | Équipe | Inventaire physique | DEP-03 | Conçu — à prouver |
 | EPSI-044 | PC Hôte Windows 10/11, admin, virtualisation, Docker Desktop WSL2 | 6 | INFRA | Obligatoire | PC Hôte | Audit réel Windows | DEP-04 | Conçu — à prouver |
 | EPSI-045 | PC Hôte minimum 4 cœurs, 16 Go RAM, 50 Go SSD libres | 6 | INFRA | Obligatoire | PC Hôte | Inventaire CPU/RAM/disque | DEP-04 | Conçu — à prouver |

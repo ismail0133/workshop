@@ -125,6 +125,10 @@ python3 scripts/check_persistence.py
 
 Le premier script exécute le transfert de200€ et son rejeu, puis vérifie directement PostgreSQL. Le second redémarre **uniquement** postgres/auth/payment de ce projet et vérifie même transaction et soldes. Un test pytest hôte équivalent existe : `pytest --confcutdir=tests/e2e tests/e2e/test_persistence.py` (pytest local requis, aucun socket Docker monté dans les workloads).
 
+## Pilier gouvernance et transformation (phase 3)
+
+Documents : `docs/ebios/EBIOS_RM.md`, `docs/pca-pra/PCA_PRA.md`, `docs/compliance/NIS2_DORA.md`, `docs/governance/RECOMMANDATIONS_DIRECTION.md`, `docs/runbooks/RECOVERY_RUNBOOK.md`. Script de sauvegarde/restauration : `scripts/pra_backup_restore.sh` (`backup <dsn> <dir>`, `verify <dsn> <dir>`) ; preuve de répétition locale : `docs/evidence/pra/`. État et limites : `PHASE_GOV_REPORT.md`, `docs/governance/LIMITES_GOUVERNANCE.md`.
+
 ## Variables et exploitation
 
 `.env.example` indique paramètres non secrets. DB_HOST/DB_NAME/DB_USER et DB_PASSWORD_FILE configurent les connexions ; JWT_PUBLIC_KEY_FILE/JWT_PRIVATE_KEY_FILE les clés ; CURSOR_KEY_FILE signe les curseurs ; LOG_DIR produit JSONL ; CPU_LIMIT_CORES/MEMORY_LIMIT_BYTES reflètent les limites Compose. LOGIN_RATE_LIMIT vaut5, un seul worker Uvicorn par service ; le limiteur mémoire est adapté au démonstrateur mono-instance, pas à un cluster.
